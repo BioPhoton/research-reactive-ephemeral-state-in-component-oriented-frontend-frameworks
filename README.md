@@ -219,6 +219,8 @@ As we defined the way how we want to distribute our data let me list a set of pr
 As a lot of problems I ran into in applications are related to timing issues, 
 this section is here to give a quick overview of all the different things to consider.
 
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Component Life Cycle Hooks")
+
 **Shouldn't reactive code be by design in a way that timing of certain things becomes irrelevant?**
 
 I mean not that there is no time in observables, or that it does not matter when we subscribe to something,
@@ -240,7 +242,7 @@ In Angular timing is given by the following:
 - For pipes or directives in the template also the components **lifetime**
 
 All timing relates things in Angular are in an object-oriented style, very similar to hot observables.
-Subscription handling can be done declaratively over completion operators. 
+Subscription handling can be done declarative over completion operators. 
 The scheduling process can be controlled both over imperative or over operators and can influence the execution context of the next error or complete callback.
 
 We see that there are two different concepts combined that have completely different ways of dealing with timing. 
@@ -1039,7 +1041,7 @@ export class AnyComponent implements OnDestroy {
 As we can see as soon as we deal with something compose-able setters don't work anymore.
 We end up in a very ugly code. We break the reactive flow and we have to take care of subscriptions.
 
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-sate-declarative-interaction-breaking-flow__michael-hladky.png "Subscription-Less Component - Breaking the reactive flow")
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-declarative-interaction-breaking-flow__michael-hladky.png "Subscription-Less Component - Breaking the reactive flow")
 
 But how can we go more declarative or even reactive? 
 **By providing something compose-able** :)
@@ -1048,7 +1050,7 @@ Like an observable itself. :)
 
 By adding a single line of code we can go **fully declarative** as well as **fully subscription-less**.
 
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-sate-declarative-interaction-connector__michael-hladky.png "Subscription-Less Component - Connector")
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-declarative-interaction-connector__michael-hladky.png "Subscription-Less Component - Connector")
 
 **Declarative Interaction Service**
 ```typescript
@@ -1119,7 +1121,7 @@ connectState(o: Observable<{ [key: string]: any }>) {
 By providing the whole observable we can handle all related mechanisms
 of subscription handling, as well as value processing and emission in the service itself and hide all this away from others.
 
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-sate-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
 
 We now have not only way less and maintainable code but also a "subscription-less component". 
 

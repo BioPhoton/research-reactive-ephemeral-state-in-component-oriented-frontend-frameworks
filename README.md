@@ -411,7 +411,7 @@ timeStampSubject.next(dataObject);
 
 We see how we can share data, now let's take a look at operations:
 
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-operator__michael-hladky.png "Uni-Cast VS Multi-Cast With Operators")
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-operators__michael-hladky.png "Uni-Cast VS Multi-Cast With Operators")
 
 **Operators uni-cast examples:**
 ```typescript

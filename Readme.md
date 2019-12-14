@@ -4,7 +4,7 @@
 A research on reactive state management in Angular
 ---
 
-Angular, RxJS
+Angular, RxJS, State-Management
 
 In most of component oriented applications you occasionally end up with huge container components.
 Even after a well thought refactoring into more display components and grouping logic into responsibilities it's always hard to handle.

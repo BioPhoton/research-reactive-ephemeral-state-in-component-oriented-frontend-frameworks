@@ -275,15 +275,15 @@ which should not get rendered. I.e. a request to the server every 30 seconds.
 As subscriptions in the `Pipe` or `Directive` are handled over their life-cycle
 hooks automatically, we only have to discuss the scenarios for side-effects.
 
-Let's take a quick look to the diagram from before to see that all options are covered:
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_lifetime-async-pipe__michael-hladky.png "Lifetime async Pipe")
+Let's take a quick look to the diagram from before:
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Life cycle hooks component")
 
 So what could be a good strategy related to the timing of subscriptions and their termination?
 
 One way to solve it would be to subscribe as early as possible and unsubscribe as late as possible.
 
 On a diagram it would look like that:
-![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_lifetime-async-pipe__michael-hladky.png "Lifetime async Pipe")
+![](https://github.com/BioPhoton/blog-component-state/raw/master/images/reactive-local-state_subscription-handling__michael-hladky.png "Subscription Handling Strategy")
 
 
 ```typescript

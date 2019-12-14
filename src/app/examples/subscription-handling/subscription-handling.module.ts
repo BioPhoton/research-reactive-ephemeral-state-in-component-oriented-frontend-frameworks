@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SubscriptionHandlingComponent} from "./subscription-handling.component";
+import {SubscriptionHandlingBadComponent} from "./subscription-handling-bad.component";
 
 export const ROUTES = [
   {
@@ -9,7 +10,7 @@ export const ROUTES = [
   }
 ];
 const DECLARATIONS = [
-    SubscriptionHandlingComponent, SubscriptionHandlingComponent
+    SubscriptionHandlingComponent, SubscriptionHandlingBadComponent
 ];
 @NgModule({
   declarations: [DECLARATIONS],

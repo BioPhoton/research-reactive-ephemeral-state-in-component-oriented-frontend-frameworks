@@ -13,6 +13,15 @@ import {RouterModule} from '@angular/router';
 
 
 import {AppComponent} from './app.component';
+
+import {SubscriptionHandlingModule} from "./examples/subscription-handling/subscription-handling.module";
+import {SharingAReferenceModule} from "./examples/sharing-a-reference/sharing-a-reference.module";
+import {LateSubscriberModule} from "./examples/late-subscriber/late-subscriber.module";
+import {ColdCompositionModule} from "./examples/cold-composition/cold-composition.module";
+import {DeclarativeInteractionModule} from "./examples/declarative-interaction/declarative-interaction.module";
+
+import {ReEntranceModule} from "./examples/re-entrance/re-entrance.module";
+
 import {ROUTES} from "./app.routes";
 
 @NgModule({
@@ -25,7 +34,14 @@ import {ROUTES} from "./app.routes";
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    FormsModule,  RouterModule.forRoot(ROUTES)
+    FormsModule,  
+    SubscriptionHandlingModule,
+    SharingAReferenceModule,
+    LateSubscriberModule,
+    ColdCompositionModule,
+    DeclarativeInteractionModule,
+    ReEntranceModule,
+    RouterModule.forRoot(ROUTES)
     ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ]

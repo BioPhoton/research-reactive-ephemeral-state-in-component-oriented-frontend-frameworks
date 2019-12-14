@@ -14,7 +14,13 @@ import {map, shareReplay} from "rxjs/operators";
                  [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item [routerLink]="['ex1']">Example 1</a>
+            <a mat-list-item [routerLink]="['subscription-handling']">Subscription Handling</a>
+            <a mat-list-item [routerLink]="['sharing-a-reference']">Sharing State and State Derivations</a>
+            <a mat-list-item [routerLink]="['late-subscriber']">Late Subscriber</a>
+            <a mat-list-item [routerLink]="['cold-composition']">Cold Composition</a>
+            <a mat-list-item [routerLink]="['declarative-interaction']">Declarative Interaction</a>
+            <a mat-list-item [routerLink]="['re-entrance']">Re-Entrance</a>
+
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content height="100%">

@@ -9,7 +9,7 @@ import {DeclarativeInteractionBadService} from "./declarative-interaction-bad.se
     template: `
         <p>Declarative Interaction</p>
         <pre>{{state$ | async | json}}</pre>
-        <button (click)="update$.next(true)">
+        <button mat-raised-button color="primary" (click)="update$.next(true)">
             Update State
         </button>
     `,

@@ -6,7 +6,7 @@ import {DeclarativeInteractionBadService} from "./declarative-interaction-bad.se
     template: `
         <p>Imperative Interaction</p>
         <pre>{{state$ | async | json}}</pre>
-        <button (click)="updateCount()">
+        <button mat-raised-button color="primary" (click)="updateCount()">
             Update State
         </button>
     `,

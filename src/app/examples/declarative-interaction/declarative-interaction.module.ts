@@ -5,6 +5,7 @@ import {DeclarativeInteractionContainerComponent} from "./declarative-interactio
 import {DeclarativeInteractionGoodComponent} from "./declarative-interaction-good.component";
 import {DeclarativeInteractionBadComponent} from "./declarative-interaction-bad.component";
 import {DeclarativeSideEffectsGoodComponent} from "./declarative-side-effects-good.component";
+import {MatButtonModule} from "@angular/material";
 
 export const ROUTES = [
     {
@@ -22,7 +23,8 @@ const DECLARATIONS = [
 @NgModule({
     declarations: [DECLARATIONS],
     imports: [
-        CommonModule
+        CommonModule,
+        MatButtonModule
     ],
     exports: [DECLARATIONS]
 })

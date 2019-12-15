@@ -1,10 +1,7 @@
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/cover-reactive-local-state__michael-hladky.png "How to Avoid Observables in Angular - Cover")
-# Crafting Ephemeral-State Reactively - Angular and RxJS
+# Research on Reactive-Ephemeral-State with Angular and RxJS
 
-A research on ephemeral state in Angular
----
-
-Angular, RxJS, State-Management
+Angular, RxJS, State-Management, Ephemeral-State
 
 In most of component oriented applications you occasionally end up with huge container components.
 Even after a well thought refactoring into more display components and grouping logic into responsibilities it's always hard to handle.
@@ -1396,7 +1393,9 @@ export class AnyComponent extends LocalState {
 You can find the source code of the examples   
 as well as all the resources in the repository [Tackling Ephemeral State Reactively](https://github.com/BioPhoton/blog-tackling-ephemeral-state-reactively) on GitHub.
 
-The presented solution is contained in following repo:
+The first-draft is contained in the following repository:
+- [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
+All Examples can be found in this repository:
 - [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
 
 # Glossary

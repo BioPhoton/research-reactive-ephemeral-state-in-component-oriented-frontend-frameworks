@@ -1,6 +1,6 @@
 import {OnDestroy} from '@angular/core';
 import {ConnectableObservable, Observable, Subject, Subscription} from 'rxjs';
-import {mergeAll, publishReplay} from 'rxjs/operators';
+import {map, mergeAll, publishReplay, scan, takeUntil} from 'rxjs/operators';
 
 
 export class DeclarativeSideEffectsGoodService implements OnDestroy {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {interval} from "rxjs";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {DeclarativeSideEffectsGoodService} from "./declarative-side-effects-good.service";
 
 @Component({

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {map, shareReplay} from "rxjs/operators";
+import {map, share, shareReplay} from "rxjs/operators";
 
 @Component({
     selector: 'sharing-a-reference-basics-display',

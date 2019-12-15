@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {ConnectableObservable, Subject, Subscription} from 'rxjs';
+import {ConnectableObservable, merge, of, Subject, Subscription} from 'rxjs';
 import {publishReplay, scan, tap} from "rxjs/operators";
 
 @Injectable({

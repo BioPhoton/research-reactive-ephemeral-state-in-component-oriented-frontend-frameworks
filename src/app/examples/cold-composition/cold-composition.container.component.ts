@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {interval, of, timer} from 'rxjs';
+import {take, tap} from "rxjs/operators";
 
 @Component({
     selector: 'cold-composition-container',

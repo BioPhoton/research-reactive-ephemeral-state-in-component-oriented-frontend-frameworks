@@ -6,6 +6,7 @@ import {SharingAReferenceGoodDisplayComponent} from "./sharing-a-reference-good.
 import {SharingAReferenceContainerComponent} from "./sharing-a-reference.container.component";
 import {SharingAReferenceImpDisplayComponent} from "./sharing-a-reference-imp.display.component";
 import {SharingAReferenceBasicsDisplayComponent} from "./sharing-a-reference-basics.display.component";
+import {MatFormFieldModule, MatInputModule} from "@angular/material";
 
 export const ROUTES = [
     {
@@ -25,7 +26,8 @@ const DECLARATIONS = [
     declarations: [DECLARATIONS],
     imports: [
         CommonModule,
-        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
         ReactiveFormsModule
     ],
     exports: [DECLARATIONS]

@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {DeclarativeInteractionGoodService} from "./declarative-interaction-good.service";
-import {Subject} from "rxjs";
-import {map} from "rxjs/operators";
+import {interval, Subject} from "rxjs";
+import {map, tap} from "rxjs/operators";
+import {DeclarativeInteractionBadService} from "./declarative-interaction-bad.service";
 
 @Component({
     selector: 'declarative-interaction-good',

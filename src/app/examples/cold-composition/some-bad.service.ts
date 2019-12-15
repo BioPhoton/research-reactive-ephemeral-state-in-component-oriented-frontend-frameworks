@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Subject} from 'rxjs';
-import {scan, shareReplay, tap} from "rxjs/operators";
+import {scan, share, shareReplay, tap} from "rxjs/operators";
 
 @Injectable()
 export class SomeBadService implements OnDestroy {

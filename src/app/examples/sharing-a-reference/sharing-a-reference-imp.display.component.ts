@@ -7,10 +7,10 @@ import {Subscription} from 'rxjs';
     template: `
         <h2>Sharing a reference Imperative</h2>
         <form *ngIf="formGroup" [formGroup]="formGroup">
-            <div *ngFor="let c of formGroup.controls | keyvalue">
+            <mat-form-field *ngFor="let c of formGroup.controls | keyvalue">
                 <label>{{c.key}}</label>
-                <input [formControlName]="c.key"/>
-            </div>
+                <input matInput [formControlName]="c.key"/>
+            </mat-form-field>
         </form>
     `
 })

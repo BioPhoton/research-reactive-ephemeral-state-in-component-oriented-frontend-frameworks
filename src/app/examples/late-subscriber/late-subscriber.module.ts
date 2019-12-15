@@ -12,13 +12,12 @@ export const ROUTES = [
 ];
 const DECLARATIONS = [
     LateSubscribersContainerComponent, LateSubscriberDisplayComponent, LateSubscriberFixDisplayComponent];
-
 @NgModule({
     declarations: [DECLARATIONS],
     imports: [
         CommonModule
     ],
-    exports: [DECLARATIONS]
+  exports: [DECLARATIONS]
 })
 export class LateSubscriberModule {
 

@@ -25,6 +25,7 @@ const DECLARATIONS = [
     declarations: [DECLARATIONS],
     imports: [
         CommonModule,
+        MatButtonModule,
         ReactiveFormsModule
     ],
     exports: [DECLARATIONS]

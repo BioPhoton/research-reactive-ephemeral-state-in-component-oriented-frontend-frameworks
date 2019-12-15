@@ -19,8 +19,6 @@ import {map, shareReplay} from "rxjs/operators";
             <a mat-list-item [routerLink]="['late-subscriber']">Late Subscriber</a>
             <a mat-list-item [routerLink]="['cold-composition']">Cold Composition</a>
             <a mat-list-item [routerLink]="['declarative-interaction']">Declarative Interaction</a>
-            <a mat-list-item [routerLink]="['re-entrance']">Re-Entrance</a>
-
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content height="100%">

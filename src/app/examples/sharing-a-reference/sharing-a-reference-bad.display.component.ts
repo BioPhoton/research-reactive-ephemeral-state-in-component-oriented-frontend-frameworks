@@ -8,10 +8,10 @@ import {map, startWith, switchMap} from 'rxjs/operators';
     template: `
     <h2>Sharing a reference Bad</h2>
     <form *ngIf="(formGroup$ | async) as formGroup" [formGroup]="formGroup">
-        <div *ngFor="let c of formGroup.controls | keyvalue">
+        <mat-form-field *ngFor="let c of formGroup.controls | keyvalue">
             <label>{{c.key}}</label>
-            <input [formControlName]="c.key"/>
-        </div>
+            <input matInput [formControlName]="c.key"/>
+        </mat-form-field>
     </form>
     `
 })

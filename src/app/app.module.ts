@@ -20,30 +20,28 @@ import {LateSubscriberModule} from "./examples/late-subscriber/late-subscriber.m
 import {ColdCompositionModule} from "./examples/cold-composition/cold-composition.module";
 import {DeclarativeInteractionModule} from "./examples/declarative-interaction/declarative-interaction.module";
 
-import {ReEntranceModule} from "./examples/re-entrance/re-entrance.module";
-
 import {ROUTES} from "./app.routes";
 
 @NgModule({
-  imports:      [ 
-    BrowserModule, 
-  BrowserAnimationsModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    FormsModule,  
-    SubscriptionHandlingModule,
-    SharingAReferenceModule,
-    LateSubscriberModule,
-    ColdCompositionModule,
-    DeclarativeInteractionModule,
-    ReEntranceModule,
-    RouterModule.forRoot(ROUTES)
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        FormsModule,
+        SubscriptionHandlingModule,
+        SharingAReferenceModule,
+        LateSubscriberModule,
+        ColdCompositionModule,
+        DeclarativeInteractionModule,
+        RouterModule.forRoot(ROUTES)
     ],
-  declarations: [ AppComponent ],
-  bootstrap:    [ AppComponent ]
+    declarations: [AppComponent],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

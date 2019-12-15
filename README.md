@@ -1,7 +1,7 @@
-![](https://github.com/BioPhoton/blog-how-to-avoid-observables-in-angular/raw/master/images/cover-reactive-local-state__michael-hladky.png "How to Avoid Observables in Angular - Cover")
-# Tackling Component-State Reactively - Angular and RxJS
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/cover-reactive-local-state__michael-hladky.png "How to Avoid Observables in Angular - Cover")
+# Crafting Ephemeral-State Reactively - Angular and RxJS
 
-A research on reactive state management in Angular
+A research on ephemeral state in Angular
 ---
 
 Angular, RxJS, State-Management
@@ -21,7 +21,7 @@ This article provides you with some fundamental information about my findings in
 
 ---
 
-![](https://github.com/BioPhoton/blog-how-to-avoid-observables-in-angular/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
 
 <!-- toc -->
 

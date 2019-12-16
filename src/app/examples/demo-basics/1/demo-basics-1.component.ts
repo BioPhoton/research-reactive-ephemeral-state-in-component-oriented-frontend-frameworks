@@ -21,7 +21,7 @@ const initComponentState = {
 @Component({
     selector: 'demo-basics-1',
     template: `
-        <h3>Demo Basic 1 - mutating the state</h3>
+        <h3>Demo Basic 1 - Setup and Retrieving State</h3>
         <!-- CC Dominic Elm and his template streams :) -->
         <mat-expansion-panel
                 (expandedChange)="listExpandedChanges.next($event)"

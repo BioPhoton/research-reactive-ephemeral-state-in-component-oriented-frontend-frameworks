@@ -28,7 +28,7 @@ const initComponentState = {
 @Component({
     selector: 'demo-basics-3',
     template: `
-        <h3>Demo Basics 3</h3>
+        <h3>Demo Basics 3 - Introduce MVVM Architecture</h3>
         <mat-expansion-panel
                 *ngIf="model$ | async as m"
                 (expandedChange)="listExpandedChanges.next($event)"

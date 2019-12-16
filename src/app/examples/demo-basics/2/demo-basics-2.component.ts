@@ -22,7 +22,7 @@ const initComponentState = {
 @Component({
     selector: 'demo-basics-2',
     template: `
-        <h3>Demo Basics 2</h3>
+        <h3>Demo Basics 2 - Handle Side Effects</h3>
         <mat-expansion-panel
                 *ngIf="model$ | async as m"
                 (expandedChange)="listExpandedChanges.next($event)"

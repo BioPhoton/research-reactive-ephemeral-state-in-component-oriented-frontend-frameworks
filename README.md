@@ -1,5 +1,8 @@
-
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/cover-reactive-local-state__michael-hladky.png "Reactive-Ephemeral-State - Cover")
+# Research on Reactive-Ephemeral-State in component oriented frameworks
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
+
+Angular, RxJS, State-Management, Ephemeral-State
 
 **Personal Quote:** 
 >After I was done with all the documentation and examples I realized nobody will read all this,
@@ -30,9 +33,10 @@ RxJS is used as a Reactive programming library as it is well supported and the o
 
 <!-- toc -->
 
+- [TL;DR](#tldr)
 - [Methodology](#methodology)
 - [Layers of state](#layers-of-state)
-  * [What is the ephemeral state?](#what-is-the-ephemeral-state)
+  * [What is ephemeral state?](#what-is-ephemeral-state)
     + [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
     + [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-lifetime-of-data-structures)
     + [Global vs Local Processed Sources](#global-vs-local-processed-sources)
@@ -53,12 +57,7 @@ RxJS is used as a Reactive programming library as it is well supported and the o
   * [Service Design](#service-design)
   * [Service Implementation](#service-implementation)
   * [Service Usage](#service-usage)
-- [Glossary](#glossary)
-- [Rethinking Components based on Ephemeral State Management](#rethinking-components-based-on-ephemeral-state-management)
-- [Dynamic Component State and Reactive Context](#dynamic-component-state-and-reactive-context)
-  * [Initialisation and Cleanup](#initialisation-and-cleanup)
-  * [Overriding State Changes and Effects](#overriding-state-changes-and-effects)
-  * [Historical problems with state management in the frontend](#historical-problems-with-state-management-in-the-frontend)
+- [Summary](#summary)
 
 <!-- tocstop -->
 
@@ -76,6 +75,7 @@ If you are also into state management of your container component you can get a 
 
 Here the demo:
 - [🎥 Live Demo](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s) 
+- [📦 Example Code](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)
 
 # Methodology
 
@@ -1421,4 +1421,4 @@ The first-draft is contained in the following repository:
 All Examples can be found in this repository:
 - [📦 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) 
 A Talk with a good live demo at the end can be found here:
-- [🎥 Angular Vienna, Angular and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0) 
+- [🎥 Angular Vienna, Angular and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)

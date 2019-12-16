@@ -4,7 +4,7 @@ import {map} from "rxjs/operators";
 import {RepositoryListItem, selectRepositoryList} from "@data-access/github";
 import {NEVER, Subject} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
-import {LocalState} from "../../rx-ephemeral-state";
+import {LocalState} from "../rx-ephemeral-state";
 
 interface ComponentState {
     refreshInterval: number;

@@ -14,13 +14,14 @@ import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
 
-import {SubscriptionHandlingModule} from "./examples/subscription-handling/subscription-handling.module";
-import {SharingAReferenceModule} from "./examples/sharing-a-reference/sharing-a-reference.module";
-import {LateSubscriberModule} from "./examples/late-subscriber/late-subscriber.module";
-import {ColdCompositionModule} from "./examples/cold-composition/cold-composition.module";
-import {DeclarativeInteractionModule} from "./examples/declarative-interaction/declarative-interaction.module";
+import {SubscriptionHandlingModule} from "./problems/subscription-handling/subscription-handling.module";
+import {SharingAReferenceModule} from "./problems/sharing-a-reference/sharing-a-reference.module";
+import {LateSubscriberModule} from "./problems/late-subscriber/late-subscriber.module";
+import {ColdCompositionModule} from "./problems/cold-composition/cold-composition.module";
+import {DeclarativeInteractionModule} from "./problems/declarative-interaction/declarative-interaction.module";
 
 import {ROUTES} from "./app.routes";
+import {DemoBasicsModule} from "./basics-demo/demo-basics.module";
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import {ROUTES} from "./app.routes";
         LateSubscriberModule,
         ColdCompositionModule,
         DeclarativeInteractionModule,
+        DemoBasicsModule,
         RouterModule.forRoot(ROUTES)
     ],
     declarations: [AppComponent],

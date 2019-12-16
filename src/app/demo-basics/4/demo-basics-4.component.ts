@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {map, tap} from "rxjs/operators";
-import {fetchRepositoryList, RepositoryListItem, selectRepositoryList} from "@data-access/github";
+import {fetchRepositoryList, RepositoryListItem, selectRepositoryList} from "../../data-access/github";
 import {DemoBasicsViewModelService} from "./demo-basics.view-model.service";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
 

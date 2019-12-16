@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {RepositoryListItem} from "@data-access/github";
+import {RepositoryListItem} from "../../data-access/github";
 import {Subject} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
 import {LocalState} from "../rx-ephemeral-state";

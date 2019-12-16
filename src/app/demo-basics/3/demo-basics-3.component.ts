@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {map, switchMap, tap} from "rxjs/operators";
-import {fetchRepositoryList, RepositoryListItem, selectRepositoryList} from "@data-access/github";
+import {fetchRepositoryList, RepositoryListItem, selectRepositoryList} from "../../data-access/github";
 import {merge, Subject, timer} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
 import {LocalState} from "../rx-ephemeral-state";

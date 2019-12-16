@@ -28,7 +28,7 @@ The below examples are dome with Angular as a framework as it has DI built-in wh
 RxJS is used as a Reactive programming library as it is well supported and the observables are cold by default.
 
 Let's stick to some suggestions on teaching:
-> When teaching, give credit where it's due
+> When teaching, give credit where it's due  
  _Richard Feynman_  
 
 Thanks to: 

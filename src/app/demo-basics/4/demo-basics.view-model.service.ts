@@ -1,19 +1,19 @@
 import {merge, Subject, timer} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {Injectable} from "@angular/core";
-import {LocalState} from "@common";
+import {LocalState} from "../rx-ephemeral-state";
 import {DemoBasicsBaseModel} from "./demo-basics.base-model.interface";
 import {DemoBasicsView} from "./demo-basics.view.interface";
 
 const initState: DemoBasicsBaseModel = {
     refreshInterval: 1000,
-    listExpanded: false,
+    listExpanded: true,
     list: []
 };
 
 @Injectable()
 export class DemoBasicsViewModelService extends LocalState<DemoBasicsBaseModel> implements DemoBasicsView {
-    m$ = this.select();
+    baseModel$ = this.select();
 
     // ListView =================================================
     refreshClicks = new Subject<Event>();
@@ -32,7 +32,6 @@ export class DemoBasicsViewModelService extends LocalState<DemoBasicsBaseModel> 
         this.connectState(this.listExpandedChanges
             .pipe(map(b => ({listExpanded: b})))
         );
-
     }
 
 }

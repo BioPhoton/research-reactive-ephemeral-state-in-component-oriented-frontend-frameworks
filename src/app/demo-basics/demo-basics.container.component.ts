@@ -11,18 +11,16 @@ import {map} from "rxjs/operators";
             <input type="number" (input)="refreshIntervalInput$.next($event)"/>
         </div>
         
-        
-      <demo-basics-1 [refreshInterval]="refreshInterval$ | async">
-      </demo-basics-1>
+        <demo-basics-1 [refreshInterval]="refreshInterval$ | async">
+        </demo-basics-1>
         <!--
           <demo-basics-2 [refreshInterval]="refreshInterval$ | async">
           </demo-basics-2>
-           <demo-basics-3 [refreshInterval]="refreshInterval$ | async">
-       </demo-basics-3>
-        
-           <demo-basics-4 [refreshInterval]="refreshInterval$ | async">
-           </demo-basics-4>
-           -->
+          <demo-basics-3 [refreshInterval]="refreshInterval$ | async">
+          </demo-basics-3>
+          <demo-basics-4 [refreshInterval]="refreshInterval$ | async">
+          </demo-basics-4>
+        -->
     `
 })
 export class DemoBasicsContainerComponent {

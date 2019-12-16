@@ -348,7 +348,7 @@ export class SubscriptionHandlingComponent {
 
 In this way, we get rid of thinking about subscriptions in the component at all.
 
-([🎮 StackBlitz demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/subscription-handling))
+([🎮 StackBlitz ⚡️ demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/subscription-handling))
 
 ## Sharing State and State Derivations
 
@@ -508,7 +508,7 @@ export class AnyComponent {
 }
 ```
 Here we use `shareReplay` to cache the last value, replay it and share all notifications with multiple subscribers.
-([🎮 StackBlitz demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/sharing-a-reference))
+([🎮 StackBlitz ⚡️ demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/sharing-a-reference))
 
 ### Sharing Instances
 This is a rare case but important to know if you work fully reactive.
@@ -1398,6 +1398,6 @@ as well as all the resources in the repository [Tackling Ephemeral State Reactiv
 The first-draft is contained in the following repository:
 - [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
 All Examples can be found in this repository:
-- [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
+- [📦 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) 
 
 # Glossary

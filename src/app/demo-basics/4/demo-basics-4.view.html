@@ -1,11 +1,11 @@
 <h3>Simple List Component</h3>
 <mat-expansion-panel
-        *ngIf="vm.m$ | async as bm"
+        *ngIf="vm.baseModel$ | async as bm"
         (expandedChange)="vm.listExpandedChanges.next($event)"
         [expanded]="bm.listExpanded">
     <mat-expansion-panel-header>
         <mat-panel-title>
-            User Name
+            User Name {{bm | json}}
         </mat-panel-title>
         <mat-panel-description>
             <span *ngIf="!bm.listExpanded">{{bm.list.length}} Repositories</span>

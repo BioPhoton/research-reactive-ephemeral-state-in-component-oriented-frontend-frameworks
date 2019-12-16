@@ -10,7 +10,7 @@ export interface DemoBasicsView {
     refreshClicks: Subject<Event>;
     listExpandedChanges: Subject<boolean>
     // Optional The base model as observable
-    m$: Observable<DemoBasicsBaseModel>;
+    baseModel$: Observable<DemoBasicsBaseModel>;
     // Optional Derivations as observable
     // ....
 }

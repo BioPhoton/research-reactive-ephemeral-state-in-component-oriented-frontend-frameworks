@@ -10,12 +10,11 @@ import {
     MatProgressBarModule,
     MatProgressSpinnerModule
 } from "@angular/material";
-import {DemoBasicsComponent1} from "./list/1/demo-basics-1.component";
-import {DemoBasicsComponent2} from "./list/2/demo-basics-2.component";
-import {DemoBasicsComponent3} from "./list/3/demo-basics-3.component";
-import {DemoBasics4Component} from "./list/4/demo-basics-4.component";
+import {DemoBasicsComponent1} from "./1/demo-basics-1.component";
+import {DemoBasicsComponent2} from "./2/demo-basics-2.component";
+import {DemoBasicsComponent3} from "./3/demo-basics-3.component";
+import {DemoBasicsComponent4} from "./4/demo-basics-4.component";
 import {DemoBasicsContainerComponent} from "./demo-basics.container.component";
-import {ListMVVMComponent} from "./list/5/list.component";
 
 export const ROUTES = [
     {
@@ -28,8 +27,7 @@ const DECLARATIONS = [
     DemoBasicsComponent1,
     DemoBasicsComponent2,
     DemoBasicsComponent3,
-    DemoBasics4Component,
-    ListMVVMComponent
+    DemoBasicsComponent4
 ];
 export const materialModules = [
     MatIconModule,

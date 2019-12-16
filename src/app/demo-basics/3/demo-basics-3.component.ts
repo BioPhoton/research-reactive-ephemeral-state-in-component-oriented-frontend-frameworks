@@ -4,7 +4,7 @@ import {map, switchMap, tap} from "rxjs/operators";
 import {fetchRepositoryList, RepositoryListItem, selectRepositoryList} from "@data-access/github";
 import {merge, Subject, timer} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
-import {LocalState} from "../../rx-ephemeral-state";
+import {LocalState} from "../rx-ephemeral-state";
 
 interface ComponentState {
     refreshInterval: number;
@@ -21,7 +21,7 @@ const initComponentState = {
 
 // 1. Create an interface DemoBasicsView and implement all UI interaction like buttons etc.
 // 2. Create an interface DemoBasicsBaseModel this is basically a copy of your previous ComponentState.
-// 3. Implement a property `m$: Observable<DemoBasicsBaseModel>;` to provide the base model state.
+// 3. Implement a property `baseModel$: Observable<DemoBasicsBaseModel>;` to provide the base model state.
 // 4. Create a service called DemoBasicsViewModel
 //   - extend LocalState<DemoBasicsBaseModel>
 //   - implement DemoBasicsView
@@ -97,7 +97,6 @@ export class DemoBasicsComponent3 extends LocalState<ComponentState> {
         // remove everything related to the view
         super();
         this.setState(initComponentState);
-
         this.connectState(this.listExpandedChanges
             .pipe(map(b => ({listExpanded: b}))) );
         // Refactor to use the vm refreshListSideEffect$ property

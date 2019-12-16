@@ -3,7 +3,7 @@ import {ROUTES as LATE_SUBSCRIBER_ROUTES} from "./problems/late-subscriber/late-
 import {ROUTES as SUBSCRIPTION_HANDLING_ROUTES} from "./problems/subscription-handling/subscription-handling.module";
 import {ROUTES as SHARING_A_REFERENCE_ROUTES} from "./problems/sharing-a-reference/sharing-a-reference.module";
 import {ROUTES as DECLARATIVE_INTERACTION_ROUTES} from "./problems/declarative-interaction/declarative-interaction.module";
- import {ROUTES as DEMO_BASICS_ROUTES} from "./demo-basics/demo-basics.module";
+import {ROUTES as DEMO_BASICS_ROUTES} from "./demo-basics/demo-basics.module";
 
 export const ROUTES = [
     {

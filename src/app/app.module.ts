@@ -21,7 +21,7 @@ import {ColdCompositionModule} from "./problems/cold-composition/cold-compositio
 import {DeclarativeInteractionModule} from "./problems/declarative-interaction/declarative-interaction.module";
 
 import {ROUTES} from "./app.routes";
-import {DemoBasicsModule} from "./basics-demo/demo-basics.module";
+import {DemoBasicsModule} from "./demo-basics/demo-basics.module";
 
 @NgModule({
     imports: [

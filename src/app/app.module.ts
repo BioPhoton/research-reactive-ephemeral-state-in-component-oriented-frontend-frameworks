@@ -10,6 +10,10 @@ import {MatListModule} from '@angular/material/list';
 
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {GithubModule} from "@data-access/github";
+
 
 
 import {AppComponent} from './app.component';
@@ -40,7 +44,10 @@ import {DemoBasicsModule} from "./demo-basics/demo-basics.module";
         ColdCompositionModule,
         DeclarativeInteractionModule,
         DemoBasicsModule,
-        RouterModule.forRoot(ROUTES)
+        RouterModule.forRoot(ROUTES),
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        GithubModule
     ],
     declarations: [AppComponent],
     bootstrap: [AppComponent]

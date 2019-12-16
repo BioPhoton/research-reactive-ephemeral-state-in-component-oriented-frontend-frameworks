@@ -817,6 +817,10 @@ IMHO they should get refactored to creation operators.
 
 --- 
 
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-hot-cold_unicast-multicast.png "Hot vs Cold, Unicast vs Multicast")
+
+---
+
 With this in mind, we can discuss the problem of cold composition in the case of our **local state**.
 
 As we will have to deal with:
@@ -1424,12 +1428,10 @@ export class AnyComponent extends LocalState {
 ---
 
 **Resources**  
-You can find the source code of the examples   
-as well as all the resources in the repository [Tackling Ephemeral State Reactively](https://github.com/BioPhoton/blog-tackling-ephemeral-state-reactively) on GitHub.
+You can find the source code of the examples,   
+as well as all the resources in the repository: [💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) on GitHub.
 
 The first-draft is contained in the following repository:
 - [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
-All Examples can be found in this repository:
-- [💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) 
 A Talk with a good live demo at the end can be found here:
 - [🎥 Angular Vienna, Angular and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)

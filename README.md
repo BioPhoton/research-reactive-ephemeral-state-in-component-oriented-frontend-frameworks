@@ -1226,6 +1226,9 @@ So far we encountered the following problems:
 If you may already realize all the above problems naturally collapse into a single piece of code.
 :)
 
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-quote-gang-of-four2__michael-hladky.png "Gang of four quote")
+
+
 Also if you remember from the beginning this is what "the gang of four" quote says about Object-Oriented Design Patterns.
 :)
 

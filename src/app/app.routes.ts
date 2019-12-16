@@ -1,15 +1,15 @@
-import {ROUTES as COLD_COMPOSITION_ROUTES} from "./problems/cold-composition/cold-composition.module";
-import {ROUTES as LATE_SUBSCRIBER_ROUTES} from "./problems/late-subscriber/late-subscriber.module";
-import {ROUTES as SUBSCRIPTION_HANDLING_ROUTES} from "./problems/subscription-handling/subscription-handling.module";
-import {ROUTES as SHARING_A_REFERENCE_ROUTES} from "./problems/sharing-a-reference/sharing-a-reference.module";
-import {ROUTES as DECLARATIVE_INTERACTION_ROUTES} from "./problems/declarative-interaction/declarative-interaction.module";
-import {ROUTES as DEMO_BASICS_ROUTES} from "./demo-basics/demo-basics.module";
+import {ROUTES as COLD_COMPOSITION_ROUTES} from "./examples/problems/cold-composition/cold-composition.module";
+import {ROUTES as LATE_SUBSCRIBER_ROUTES} from "./examples/problems/late-subscriber/late-subscriber.module";
+import {ROUTES as SUBSCRIPTION_HANDLING_ROUTES} from "./examples/problems/subscription-handling/subscription-handling.module";
+import {ROUTES as SHARING_A_REFERENCE_ROUTES} from "./examples/problems/sharing-a-reference/sharing-a-reference.module";
+import {ROUTES as DECLARATIVE_INTERACTION_ROUTES} from "./examples/problems/declarative-interaction/declarative-interaction.module";
+import {ROUTES as DEMO_BASICS_ROUTES} from "./examples/demo-basics/demo-basics.module";
+import {ExampleContainerComponent} from "./examples/examples.container.component";
 
 export const ROUTES = [
     {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'timing'
+        component: ExampleContainerComponent
     },
     {path: 'subscription-handling', children: SUBSCRIPTION_HANDLING_ROUTES},
     {path: 'late-subscriber', children: LATE_SUBSCRIBER_ROUTES},

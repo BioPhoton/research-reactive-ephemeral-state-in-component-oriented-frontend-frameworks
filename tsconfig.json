@@ -1,0 +1,43 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@data-access/github": [
+        "src/app/data-access/github"
+      ],
+      "@data-access/github/*": [
+        "src/app/data-access/github/"
+      ],
+      "@data-access/meetings": [
+        "src/app/data-access/meetings"
+      ],
+      "@data-access/meetings/*": [
+        "src/app/data-access/meetings/*"
+      ],
+      "@common": [
+        "src/app/common"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}

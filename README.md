@@ -1,24 +1,32 @@
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/cover-reactive-local-state__michael-hladky.png "How to Avoid Observables in Angular - Cover")
-# Research on Reactive-Ephemeral-State with Angular and RxJS
 
-Angular, RxJS, State-Management, Ephemeral-State
+### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
-In most of component oriented applications you occasionally end up with huge container components.
+**Personal Quote:** 
+>After I was done with all the documentation and examples I realized nobody will read all this,
+so I thought why not also putting a title nobody will read. 😜
+
+In most of the component-oriented applications, there is the need to structure container components.
 Even after a well thought refactoring into more display components and grouping logic into responsibilities it's always hard to handle.
 
-The data structure you manage inside this components is only here for their very component. Not for any other components.
+The data structure you manage inside these components is only here for their very component. Not for any other components.
 This data structure appears with the component and disappears when the component is removed.
 
-This is a good example for ephemeral state. 
+This is a good example of an ephemeral state. 
 
 If you have a well thought and structured approach on how to manage ephemeral state such components get a breeze to write.
 You could master a fully reactive architecture in a scalable and maintainable way.
 
-This article provides you with some fundamental information about my findings in reactive ephemeral state management.  
+This article provides you with some fundamental information about my findings in reactive ephemeral state management.
+It is applicable to every framework that is component-oriented and have some life cycle hooks for creation and destruction.  
+
+The below examples are dome with Angular as a framework as it has DI built-in which comes in handy here.
+RxJS is used as a Reactive programming library as it is well supported and the observables are cold by default.
 
 ---
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
+
+# Table of Content
 
 <!-- toc -->
 
@@ -54,9 +62,24 @@ This article provides you with some fundamental information about my findings in
 
 <!-- tocstop -->
 
+# TL;DR
+If you are into reactive programming you will learn about some cool topics.
+- unicast vs. multicast
+- hot vs. cold
+- subscription-less components
+- higher-order operators like mergeAll
+
+If you are also into state management of your container component you can get a very good understanding of the fundamental implementation and how to introduce different architecture patterns in your component structure. 
+- Initiation and coupling state to i.e. a component
+- Interaction
+- derivation of state
+
+Here the demo:
+- [🎥 Live Demo](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s) 
+
 # Methodology
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_quote-gang-of-four__michael-hladky.png "Gang of four quote")
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-quote-gang-of-four__michael-hladky.png "Gang of four quote")
 
 If you go back in history you will find almost all our nowadays "cutting edge problems" already solved. 
 When I realized the first time that life is a "constant evolutionary repetition" I started to change my strategy on solving problems.
@@ -348,7 +371,6 @@ export class SubscriptionHandlingComponent {
 
 In this way, we get rid of thinking about subscriptions in the component at all.
 
-([🎮 StackBlitz ⚡️ demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/subscription-handling))
 
 ## Sharing State and State Derivations
 
@@ -508,7 +530,6 @@ export class AnyComponent {
 }
 ```
 Here we use `shareReplay` to cache the last value, replay it and share all notifications with multiple subscribers.
-([🎮 StackBlitz ⚡️ demo](https://blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs.stackblitz.io/sharing-a-reference))
 
 ### Sharing Instances
 This is a rare case but important to know if you work fully reactive.
@@ -1399,5 +1420,5 @@ The first-draft is contained in the following repository:
 - [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
 All Examples can be found in this repository:
 - [📦 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) 
-
-# Glossary
+A Talk with a good live demo at the end can be found here:
+- [🎥 Angular Vienna, Angular and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0) 

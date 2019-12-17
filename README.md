@@ -1,12 +1,14 @@
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/cover-reactive-local-state__michael-hladky.png "Reactive-Ephemeral-State - Cover")
-# Research on Reactive-Ephemeral-State in Component-Oriented Frameworks
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
-Angular, RxJS, StateManagement, EphemeralState
+As this is too much text I'm afraid the important things at the end will get lost:
 
-**Personal Quote:** 
->After I was done with all the documentation and examples I realized nobody will read ALL THIS,
-so I thought why not also putting a title nobody will read. 😜
+> When teaching, give credit where it's due
+ _Richard Feynman_  
+
+Thanks to: 
+- [@niklas_wortmann](https://twitter.com/niklas_wortmann) - may be the only person on earth that read ALL THAT
+- [@juristr](https://twitter.com/juristr) - that pretended he will use it in his projects
+- [@ngrx_io](https://twitter.com/ngrx_io) - that listened to my questions and gave me good feedback
 
 --- 
 
@@ -24,23 +26,15 @@ You could master a fully reactive architecture in a scalable and maintainable wa
 This article provides you with some fundamental information about my findings in reactive ephemeral state management.
 It is applicable to every framework that is component-oriented and have some life cycle hooks for creation and destruction.  
 
-The below examples are dome with Angular as a framework as it has DI built-in which comes in handy here.
-RxJS is used as a Reactive programming library as it is well supported and the observables are cold by default.
+The below examples are done with Angular as a framework as it has DI built-in which comes in handy here.
+As a Reactive programming library with cold Observables by default, I picked RxJS as it is well supported.
 
-Let's stick to some suggestions on teaching:
-> When teaching, give credit where it's due  
- _Richard Feynman_  
-
-Thanks to: 
-
-- 
-- 
 
 ---
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
 
-# Table of Content
+# Table of Content @TODO
 
 <!-- toc -->
 
@@ -73,16 +67,30 @@ Thanks to:
 <!-- tocstop -->
 
 # TL;DR
+
 If you are into reactive programming you will learn about some cool topics.
 - unicast vs. multicast
 - hot vs. cold
 - subscription-less components
-- higher-order operators like mergeAll
+- higher-order operators like [mergeAll](https://rxjs.dev/api/operators/mergeAll)
 
-If you are also into state management of your container component you can get a very good understanding of the fundamental implementation and how to introduce different architecture patterns in your component structure. 
-- Initiation and coupling state to i.e. a component
+If you are also into ephemeral state management you can learn how to detect it:
+
+**We defined 3 rules of thumb to detect ephemeral/local state**
+- No horizontal sharing of state
+- The lifetime of the state is dynamic
+- It processes local relevant events
+
+Your understanding of the fundamental implementation will get a good boost!
+Examples on how to introduce different architecture patterns in your component structure is only the tip of the iceberg: 
+- Initiation and coupling state to e.g. a component
 - Interaction
 - derivation of state
+
+are just some of the nitty-gritty details included!
+
+
+
 
 Here the demo:
 - [🎥 Live Demo](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s) 
@@ -106,12 +114,11 @@ So here is what the gang of four says about Object-Oriented-Software-Design-Patt
 > the design patterns appear naturally.
 
 With that in mind, I did not work on a solution for ephemeral state management,
-but tried to look at all the different problems that we will face when managing any local state in general,
-(and also some specific problems related to Angular), with the hope, in the end, a solid solution will appear naturally.
+but tried to look at all the different problems that we will face when managing any local state in general, with the hope, in the end, a solid solution will appear naturally.
 
 Let's start with the first chapter and some general information to get you on track.
 
-# Layers of state
+# Layers of State
 
 Of course, there are WAY more, but in this article, I will introduce 3 layers of state:
 - (Persistent) Server State
@@ -121,15 +128,15 @@ Of course, there are WAY more, but in this article, I will introduce 3 layers of
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_layers-of-state__michael-hladky.png "Layers of State")
 
 **Persistent Server State** is the data in your database. It is provided to the consumer over a data API like REST, GraphQL, Websocket, etc.
-This is very different from **Meta State**, which is information related to the status of a resource that provides us a state. I.E. Loading, Error, Success, etc.
+This is very different from **Meta State**, which is information related to the status of a resource that provides us a state. E.g. Loading, Error, Success, etc.
 
 For persistent and ephemeral client states I will try to use to more simpler wording.
  I will use **Global State** for persistent client state and **Local State** of the ephemeral client state.
-Both live on the client, but they demand completely different handling and a completely different way of treating them.
+Both live on the client, but they demand a completely different way of treatment.
 
 In this article, I want to focus on the ephemeral state. 
 
-## What is ephemeral state?
+## What is the ephemeral state?
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_ephemeral-state__michael-hladky.png "What is Ephemeral State")
 
@@ -142,13 +149,13 @@ of an isolated unit like for example a component in your application.
 
 As the word "isolated" is a bit vague, let me get a little bit more concrete.
 
-It's the state that life's in your components, pipes, directives and some of the services that are created
+It's the state that lives in your components, pipes, directives and some of the services that are created
 and destroyed over time. The state is not shared between siblings and not populated to global services.
 
 ### Global vs Local Accessibility of Data Structures
 
-The therm global state is well known in modern web development. 
-It is the state we share globally in our app i.e. a `@ngRx/store` or the good old `window` object ;)
+The term global state is well known in modern web development. 
+It is the state we share globally in our app e.g. a `@ngRx/store` or the good old `window` object ;)
 
 This is in this article called persistent state.
 
@@ -163,7 +170,7 @@ For example in a component or directive.
 
 This is our first rule of thumb to detect local state: 
 
-> No horizontal sharing of the state i.e. with sibling components or upwards.
+> No horizontal sharing of the state e.g. with sibling components or upwards.
 
 ### Static vs Dynamic Lifetime of Data Structures
 
@@ -175,20 +182,19 @@ This is called a static lifetime.
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-global-singleton-service__michael-hladky.png "Lifetime Global Singleton Service")
 
 
-If we compare this to the lifetime of other building blocks of angular we can see their lifetime is way more dynamic.
+If we compare this to the lifetime of other building blocks of Angular we can see their lifetime is way more dynamic.
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-angular-building-blocks__michael-hladky.png "Lifetime Angular Building Blocks")
 
-State in this building blocks is tied to the lifetime of their owners or hosts.
-And if shared only with children.
+State in this building blocks is tied to the lifetime of their owners, their hosts and if shared this state is shared then only with children.
 
 The best example of a dynamic lifetime is data that gets rendered over the `async` pipe.
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-async-pipe__michael-hladky.png "Lifetime async Pipe")
 
-The lifetime depends on the evaluation of the template expression, a potential `*ngIf` that wraps the expression or many other things.
+The lifetime depends on the evaluation of the template expression, a potential `*ngIf` that wraps the expression or e.g a directive.
 
 For our second rule of thumb we detected for the local state is: 
 
-> The lifetime is dynamic i.e. bound to the lifetime of a component or an async pipe
+> The lifetime is dynamic e.g. bound to the lifetime of a component or an async pipe
 
 ### Global vs Local Processed Sources
 
@@ -214,7 +220,7 @@ Code dedicated to the local state would nearly always focus on the process of th
 
 The third rule of thumb to detect local state is: 
 
-> It processes mostly local sources i.e. sort/filter change
+> It processes mostly local sources e.g. sort/filter change
 
 ---
 
@@ -234,14 +240,13 @@ Some real-life example that matches the above-defined rules are:
 - extended global state or derived global state for a container component 
  
 You rarely share this data with sibling components, it only shares data-structures only locally and focuses mostly on local sources.
-In other words, there is no need to use state management libraries like ngrx, ngxs, Akita, etc. there.
+In other words, there is no need to use many of the concepts of global state management libraries e.g. actions.
 
 Still, we need a way to manage these data structures.
 
 # Problems to Solve on a Low-Level
 
-As a first and foundational decision in the way of data distribution, we will pick a push-based architecture.
-This has several advantages but more important defines the problems we will run into when implementing a solution.
+As a first and foundational decision fact, we have to know we work with a push-based architecture. This has several advantages but more important defines the problems we will run into when implementing a solution.
 
 As we defined the way how we want to distribute our data let me list a set of problems we need to solve.
 
@@ -303,7 +308,7 @@ For this reason, we use a `Pipe` or a `Directive` in the template to trigger
 change-detection whenever a value arrives.
 
 The other reason could be to run some background tasks in a `Component`, `Directive` or `Service`,
-which should not get rendered. I.e. a request to the server every 30 seconds.
+which should not get rendered. E.g. a request to the server every 30 seconds.
 
 As subscriptions in the `Pipe` or `Directive` are handled over their life-cycle
 hooks automatically, we only have to discuss the scenarios for side-effects.
@@ -339,6 +344,7 @@ export class SubscriptionHandlingComponent implements OnDestroy {
     }
 }
 ```
+_(used RxJS parts: [timer](https://rxjs.dev/api/function/timer), [tap](https://rxjs.dev/api/operator/tap), [takeUntil](https://rxjs.dev/api/operator/takeUntil), [Subject](https://rxjs.dev/api/class/Subject)_
 
 We already have a declarative subscription handling. 
 But this code could get moved somewhere else. We could use
@@ -396,7 +402,7 @@ The derivation of data.
 ### Uni and multi-casting with RxJS
 
 As we have multiple sources we calculate the data for every subscription separately.
-This is given by the default behavior of RxJS. Notifications are is uni-cased by default.
+This is given by the default behavior of RxJS. It is uni-cased by default.
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast__michael-hladky.png "Uni-Cast VS Multi-Cast")
 
@@ -418,8 +424,9 @@ timeStampObservable
 // create date object
 // date:  Fri Dec 13 2042 00:00:00 
 // create date object
-// date:  Fri Dec 13 2042 00:00:00 
+// date:  Fri Dec 13 2042 00:00:01 
 ```
+_(used RxJS parts: [Observable](https://rxjs.dev/api/class/Observable)_
 
 If we want to multicast the values we could do something like that:
 
@@ -442,7 +449,6 @@ timeStampSubject.next(dataObject);
 // date:  Fri Dec 13 2042 00:00:00 
 // date:  Fri Dec 13 2042 00:00:00 
 ```
-
 We see how we can share data, now let's take a look at operations:
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-operators__michael-hladky.png "Uni-Cast VS Multi-Cast With Operators")
@@ -472,6 +478,7 @@ timeStampSubject.next(dataObject);
 // transformation of Fri Dec 13 2042 00:00:00
 // date:  1576231670737
 ```
+_(used RxJS parts: [map](https://rxjs.dev/api/operator/map)_
 
 You remember the subscriber function we saw in the first example with the observable?
 Operators internally maintain a similar logic. We apply an operator the inner subscriber functions are chained.
@@ -504,6 +511,9 @@ timeStampSubject.next(dataObject);
 // date:  1576231670737
 // date:  1576231670737
 ```
+_(used RxJS parts: [share](https://rxjs.dev/api/operator/share)_
+
+
 ### Sharing Work
 With this knowledge let's take a look at some examples:
 
@@ -515,16 +525,16 @@ An example could be an array of items from an HTTP call.
 ```typescript
 @Component({
     template: `
-    <list-a [list]="httpResult$ | async">
-    </list-a>
-    <list-b [list]="httpResult$ | async">
-    </list-b>
+    <list-a [list]="httpResult$ | async"></list-a>
+    <list-b [list]="httpResult$ | async"></list-b>
     `,
     ...
 })
 export class AnyComponent {
     httpResult$ = this.http.get(url)
-        .pipe(map(this.mapServerToClientObject));
+        .pipe(
+          map(this.mapServerToClientObject)
+        );
 }
 ```
 
@@ -537,9 +547,14 @@ To save work we need to share the subscription.
 ```typescript
 export class AnyComponent {
     httpResult$ = this.http.get(url)
-        .pipe(map(this.mapServerToClientObject), shareReplay({refCount: true, bufferSize: 1}));
+        .pipe(
+          map(this.mapServerToClientObject),
+          shareReplay({refCount: true, bufferSize: 1})
+        );
 }
 ```
+_(used RxJS parts: [shareReplay](https://rxjs.dev/api/operator/shareReplay)_
+
 Here we use `shareReplay` to cache the last value, replay it and share all notifications with multiple subscribers.
 
 ### Sharing Instances
@@ -563,7 +578,7 @@ Let's take a closer look at the EventEmitter interface:
 `EventEmitter<T extends any> extends Subject<T>`
 And `Subject` looks like this:
 `Subject<T> extends Observable<T> implements SubscriptionLike`
-The important part here is that we can pass everything that holds a `subscribe`.
+The important part here is that we can pass everything that holds a `subscribe` method.
 
 Which means the following would work:
 
@@ -575,6 +590,8 @@ export class AnyComponent {
     @Output() compOutput = interval(1000);
 }
 ```
+_(used RxJS parts: [interval](https://rxjs.dev/api/function/interval)_
+
 An observable for example provides a `subscribe` method. 
 Therefore we can directly use it as a value stream for our `@Output` binding.
 
@@ -633,12 +650,14 @@ export class SharingAReferenceComponent {
 
 }
 ```
+_(used RxJS parts: [startWith](https://rxjs.dev/api/operator/startWith)_
+
 
 If we run the code we will see that the values are not updating in the parent component.
 
 We faced a problem related to the fact that nearly all observables are cold, which means that every subscriber will get its instance of the producer.
 
-You might be even more confused now, as our source that produces the formGroup is a `ReplaySubject`.
+You might be even more curious now, as our source that produces the formGroup is a `ReplaySubject`.
 Which are multi-casting values and sharing one producer with multiple subscribers...
 
 What we forgot here is that our `formGroup$` observable ends with a `map` operator,
@@ -649,7 +668,7 @@ We subscribed once in the template over the `async` pipe to render the form.
 And another time in the component internals to emit value changes from the form.
 
 As we now know that the map operator turned everything into a uni-cast observable again,
-we realize created a new `FormGroup` instance for every subscription.
+we realize that we created a new `FormGroup` instance for every subscription.
 The subscription in the template, as well as the subscription, happens internally over @Output().
 
 This can be solved by adding a multicast operator like `share` or `shareReplay` at the end of `formGroup$`.
@@ -666,6 +685,7 @@ As we also have late subscribers, the `async` pipe in the template, we use `shar
 ```
 `shareReplay` emits **the same value** to subscribers.
 
+
 So the subscription in the template and the subscription in the components internals receive **the same instance** of `FormGroup`.
 
 Important to notice here is that `shareReplay` is cold but multicast. 
@@ -676,8 +696,7 @@ Later on, in this article, we will remember this problem to provide a way to sha
 
 ## The Late Subscriber Problem
 
-In this section, we will face the first time a problem that might need some more thinking. :D
-But with a bit of focus, we can solve it.
+In this section, I faced the first time a problem that needed some more thinking. 
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
 
@@ -742,6 +761,7 @@ export class LateSubscriberComponent {
 
 }
 ```
+_(used RxJS parts: [startWith](https://rxjs.dev/api/class/ReplaySubject)_
 
 This quick solution has 2 major caveats!
 
@@ -782,16 +802,16 @@ Let's quickly clarify hot/cold and uni-case/multi-cast.
 
 First, let's remember what we learned about uni- and multi-casting in the earlier chapter.
 
-**uni-cast**
+**Uni-cast**
 The producer is unique per subscription.
 Any creation operator is uni-cast. (publish operators are not yet refactored to creation operators, but they would be the only exception)
 `interval` for example would call `setInterval` for every subscriber separately.
 
-**multi-cast**
+**Multi-cast**
 The producer is shared over all subscriptions.
 `Subject` for example emits it's value to multiple subscribers without executing some producer logic again. 
 
-**cold** 
+**Cold** 
 The internal logic of the observable is executed only on subscription.
 The consumer controls the moment when internal logic is executed by the `subscribe` is called.
 The `interval` creation operator, for example, will only start it's internal tick if we subscribe to it.
@@ -801,19 +821,15 @@ An interesting example for a *cold* operator is `share`.
 Even if is multi-casts it's notifications to multiple subscribers,
 it will not emit any notification until at least one subscriber is present.
 
-So it's cold but multi-cast. :)
+So it's cold at the beginning but multi-cast after the first subscriber. :)
 
-**hot**
+**Hot**
 The internal logic is executed independently from any consumer.
 The `Subject` for example can emit values without any present consumer.
 
 There is also an operator that turn all the above logic into a hot path.
-Every `publish` operator returns a `ConnectableObservable`. 
+`multicast` and every `publish` operator returns a `ConnectableObservable`. 
 If we call `connect` on it we connect to the source an start to execute the logic and all the operators in between `publish` and it's source observable.
-
-Some side notes here:
-Pipeable operators that return `ConnectableObservable` are not pipeable operators as they are not compos-able.
-IMHO they should get refactored to creation operators.
 
 --- 
 
@@ -825,7 +841,7 @@ With this in mind, we can discuss the problem of cold composition in the case of
 
 As we will have to deal with:
 - View Interaction ( button click )
-- Global State Changes ( i.e. HTTP update )
+- Global State Changes ( e.g. HTTP update )
 - Component State Changes ( triggered internal logic )
 
 Putting all this logic in the component class is a bad idea. 
@@ -848,17 +864,17 @@ If we compose state we have to consider that our `scan` operator returns a cold 
 So no matter what we do before, after an operation we get a cold observable, and we have to subscribe to it to trigger the composition.
 I call this situation a cold composition.
 
-Some of our sources are cold. This can be solved by tow ways: 
+Some of our sources are cold. This can be solved in tow ways: 
 - a) Make all sources replay at least their last value (push workload to all relevant sources)
 - b) Make the composition hot as early as possible (push workload to the component related part)
 
-We discuss a) already in the previous section, and concluded that this is not an option.
+We discuss a) already in the previous section. 
+This solution pushed workload to all involved parties, and the initiation will still be controlled by the consumer.
 
 What would be the scenario with b)?
 
 We could think of the earliest possible moment to make the composition hot. 
-From the diagram above we know that service, even if locally provided, 
-are instantiated first, before the component.
+From the diagram about lifecycle hooks and the different instances in Angular we know that a service, even if locally provided, is instantiated first, before the component.
 
 If we would put it there we could take over the workload from:
 - View Input bindings (multiple times)
@@ -886,6 +902,7 @@ export class SomeService {
         );
 }
 ```
+_(used RxJS parts: [scan](https://rxjs.dev/api/operator/scan)_
 
 In this service we could try to solve our problem by using:
 - share()
@@ -958,6 +975,7 @@ export class SomeService {
 
 }
 ```
+_(used RxJS parts: [publishReplay](https://rxjs.dev/api/operator/publishReplay), [Subscription](https://rxjs.dev/api/class/Subscription)_
 
 We kept the component untouched and only applied changes to the service.
 
@@ -1106,6 +1124,7 @@ export class StateService implements OnDestroy {
     ...
 }
 ```
+_(used RxJS parts: [mergeAll](https://rxjs.dev/api/operator/mergeAll)_
 
 **Declarative Interaction Component**
 ```typescript
@@ -1139,7 +1158,7 @@ Let's take a detailed look at the introduced changes:
 to 
 `stateSubject = new Subject<Observable<{ [key: string]: any }>>();`
 It now accepts Observables instead of state objects.
-2. In `StateService` we added the `mergeAll()` operator to ors state processing
+2. In `StateService` we added the `mergeAll()` operator to our state computation logic.
 3. In `StateService` we replaced the `setState` method 
 ```
 setState(v: { [key: string]: any }) {
@@ -1180,7 +1199,7 @@ export class DeclarativeSideEffectsGoodService implements OnDestroy {
 
     constructor() {
         this.effectSubscription = (this.effectSubject
-            .pipe(mergeAll()) as ConnectableObservable<any>).connect();
+            .pipe(mergeAll(), publish()) as ConnectableObservable<any>).connect();
     }
 
     ngOnDestroy(): void {
@@ -1210,6 +1229,7 @@ export class AnyComponent {
 
 }
 ```
+_(used RxJS parts: [publish](https://rxjs.dev/api/operator/publish)_
 
 Note that the side-effect is now placed in a `tap` operator and the whole observable is handed over.
 
@@ -1226,9 +1246,6 @@ So far we encountered the following problems:
 If you may already realize all the above problems naturally collapse into a single piece of code.
 :)
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-quote-gang-of-four2__michael-hladky.png "Gang of four quote")
-
-
 Also if you remember from the beginning this is what "the gang of four" quote says about Object-Oriented Design Patterns.
 :)
 
@@ -1239,59 +1256,78 @@ and naturally, we ended up with a solution that is compact, robust and solves al
 Let's see how the local state service looks like.
 
 # Basic Usage
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
 
 ## Service Design
 
-**Local State Service**
+**State Logic**
 ```typescript
-export class LocalState implements OnDestroy {
+export class LocalState<T> {
     private _subscription = new Subscription();
-    private _effectSubject = new Subject();
-    private _stateSubject = new Subject();
-    private _stateSubjectObservable = new Subject();
-    
+    private _stateObservables = new Subject<Observable<Partial<T>>>();
+    private _stateSlices = new Subject<Partial<T>>();
+    private _effectSubject = new Subject<any>();
+
+    private stateAccumulator = (acc: T, command: Partial<T>): T => ({...acc, ...command});
+
     private _state$ = merge(
-                        this._stateSubject,
-                        this._stateSubjectObservable.pipe(mergeAll()),
-                     )
-        .pipe(
-            map(obj => Object.entries(obj).pop()),
-            scan((state, command) => ({...state, ...command}), {}),
-            publishReplay(1)
-        );
+        this._stateObservables.pipe(mergeAll()),
+        this._stateSlices
+    ).pipe(
+        scan(this.stateAccumulator, {} as T),
+        publishReplay(1)
+    );
 
     constructor() {
-        this._subscription.add(this.state$.connect());
-        this._subscription.add(this.effectSubject.pipe(mergeAll()).connect()
+        this._subscription.add((this._state$ as ConnectableObservable<T>).connect());
+        this._subscription.add((this._effectSubject
+            .pipe(mergeAll(), publish()
+            ) as ConnectableObservable<any>).connect()
         );
     }
-  
-    select(operatorArray) {
-        return this._state$
-            .pipe(
-                operatos,
-                shareReplay({refCount: true, bufferSize: 1})
-            );
-    }
- 
-    setState(slice) {
-        this._stateSubject.next(slice);
-    }
-    connectState(slice$) {
-        this._stateSubject.next(slice$);
+
+    setState(s: Partial<T>): void {
+        this._stateSlices.next(s);
     }
 
-    connectEffect(o) {
+
+    connectState<A extends keyof T>(strOrObs: A | Observable<Partial<T>>, obs?: Observable<T[A]>): void {
+        let _obs;
+        if (typeof strOrObs === 'string') {
+            const str: A = strOrObs;
+            const o = obs as Observable<T[A]>;
+            _obs = o.pipe(
+                map(s => ({[str]: s}))
+            );
+        } else {
+            const ob = strOrObs as Observable<Partial<T>>;
+            _obs = ob;
+        }
+        this._stateObservables.next(_obs as Observable<Partial<T>> | Observable<T[A]>);
+    }
+
+    connectEffect(o: Observable<any>): void {
         this._effectSubject.next(o);
     }
-    
-    ngOnDestroy() {
+
+    select(...opOrMapFn: OperatorFunction<T, any>[] | string[]): Observable<any> {
+     return this._state$.pipe(
+        pipeFromArray(opOrMapFn),
+        filter(v => v !== undefined),
+        distinctUntilChanged(),
+        shareReplay(1)
+       );
+    }
+
+    private isOperateFnArray(op: OperatorFunction<T, any>[] | string[]): op is OperatorFunction<T, any>[] {
+        return !(op.length === 1 && typeof op[0] === 'string');
+    }
+
+    teardown(): void {
         this._subscription.unsubscribe();
     }
 
-}
-```
+}```
 
 ## Service Implementation
 
@@ -1334,6 +1370,8 @@ export class AnyComponent {
 ```
 
 ## Service Usage
+
+Now let's see some basic usage:
 
 **Connecting Input-Bindings**
 ```typescript
@@ -1390,20 +1428,21 @@ export class AnyComponent extends LocalState {
     selector: 'component',
     template: `
         <p>Component</p>
-        <button (click)="click$.next()">btn</button>
+        <input (input)="input$.next($event)"/>
         {{state$ | async}}
     `
 })
 export class AnyComponent extends LocalState {
-    click$ = new Subject(); 
+    input$ = new Subject(); 
     
     state$ = this.select(
-        withLatestFrom(click$),
+        withLatestFrom(input$),
         map(([state, _]) => state.slice)
     );    
    
 }
 ```
+_(used RxJS parts: [withLatestFrom(https://rxjs.dev/api/operator/withLatestFrom)_
 
 **Handling LocalSideEffects**
 
@@ -1426,6 +1465,218 @@ export class AnyComponent extends LocalState {
 }
 ```
 
+This example shows a material design list that is collapsable.
+It refreshed data every n seconds of if we click the button.
+Also, it displays the fetched items.
+
+
+*Basic Example - Stateful Component**:
+```typescript
+@Component({
+    selector: 'basic-list',
+    template: `
+        <mat-expansion-panel
+                *ngIf="model$ | async as m"
+                (expandedChange)="listExpandedChanges.next($event)"
+                [expanded]="m.listExpanded">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    User Name
+                </mat-panel-title>
+                <mat-panel-description>
+                    <span *ngIf="!m.listExpanded">{{m.list.length}} Repositories Updated every: {{m.refreshInterval}}
+                        ms</span>
+                    <span *ngIf="m.listExpanded">{{m.list.length}}</span>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <button mat-raised-button color="primary"
+                    (click)="refreshClicks.next($event)">
+                Refresh List
+            </button>
+
+            <div *ngIf="m.list.length; else noList">
+                <mat-list>
+                    <mat-list-item *ngFor="let item of m.list">
+                        {{item.name}}
+                    </mat-list-item>
+                </mat-list>
+            </div>
+
+            <ng-template #noList>
+                <mat-card>No list given!</mat-card>
+            </ng-template>
+
+        </mat-expansion-panel>
+    `,
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DemoBasicsComponent3 extends LocalState<ComponentState> {
+    initComponentState = {
+      refreshInterval: 10000,
+      listExpanded: false,
+      list: []
+    };
+    refreshClicks = new Subject<Event>();
+    listExpandedChanges = new Subject<boolean>();
+
+    model$ = this.select();
+
+    @Input()
+    set refreshInterval(refreshInterval: number) {
+      this.setState({refreshInterval});
+    }
+
+    refreshListSideEffect$ = merge(
+        this.refreshClicks,
+        this.select(
+            map(s => s.refreshInterval),
+            tap(console.log),
+            switchMap(ms => timer(0, ms))
+        )
+    )
+        .pipe(
+            tap(_ => this.store.dispatch(fetchRepositoryList({})))
+        );
+
+    constructor(private store: Store<any>) {
+        super();
+        this.setState(this.initComponentState);
+        this.connectState(this.listExpandedChanges
+            .pipe(map(b => ({listExpanded: b}))));
+        this.connectEffect(this.refreshListSideEffect$);
+        this.connectState('list',
+            this.store.select(selectRepositoryList).pipe(map(this.parseListItems))
+        );
+    }
+
+    parseListItems(l: RepositoryListItem[]): DemoBasicsItem[] {
+        return l.map(({id, name}) => ({id, name}))
+    }
+
+}
+```
+
+This shows some fundamental interaction for template global state and ephemeral state. 
+The next snippet shows how you would implement architecture patterns based on that service. In this case I picked a simple implementation of the MVVM design pattern.
+
+*Basic Example - Design Pattern MVVM**:
+
+```typescript
+export interface DemoBasicsBaseModel {
+    refreshInterval: number;
+    list: DemoBasicsItem[];
+    listExpanded: boolean;
+}
+
+export interface DemoBasicsView {
+    refreshClicks: Subject<Event>;
+    listExpandedChanges: Subject<boolean>
+    baseModel$: Observable<DemoBasicsBaseModel>;
+}
+
+@Injectable()
+export class DemoBasicsViewModelService extends LocalState<DemoBasicsBaseModel> implements DemoBasicsView {
+    initState: DemoBasicsBaseModel = {
+      refreshInterval: 1000,
+      listExpanded: true,
+      list: []
+    }
+
+    baseModel$ = this.select();
+
+    refreshClicks = new Subject<Event>();
+    listExpandedChanges = new Subject<boolean>();
+
+    refreshListSideEffect$ = merge(
+        this.refreshClicks,
+        this.select(map(s => s.refreshInterval))
+            .pipe(switchMap(ms => timer(ms)))
+    );
+
+    constructor() {
+        super();
+        this.setState(this.initState);
+
+        this.connectState(this.listExpandedChanges
+            .pipe(map(b => ({listExpanded: b})))
+        );
+    }
+
+}
+
+
+
+@Component({
+    selector: 'basic-list',
+    template: `
+<mat-expansion-panel
+        *ngIf="vm.baseModel$ | async as bm"
+        (expandedChange)="vm.listExpandedChanges.next($event)"
+        [expanded]="bm.listExpanded">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            User Name
+        </mat-panel-title>
+        <mat-panel-description>
+                          <span *ngIf="!bm.listExpanded">{{bm.list.length}}
+                              Repositories Updated every: {{bm.refreshInterval}}
+                              ms</span>
+            <span *ngIf="bm.listExpanded">{{bm.list.length}}</span>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <button mat-raised-button color="primary"
+            (click)="vm.refreshClicks.next($event)">
+        Refresh List
+    </button>
+
+    <div *ngIf="bm.list.length; else noList">
+        <mat-list>
+            <mat-list-item *ngFor="let item of bm.list">
+                {{item.name}}
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <ng-template #noList>
+        <mat-card>No list given!</mat-card>
+    </ng-template>
+
+</mat-expansion-panel>
+            `,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DemoBasicsViewModelService]
+})
+export class DemoBasicsComponent4 {
+
+    @Input()
+    set refreshInterval(refreshInterval: number) {
+            this.vm.setState({refreshInterval});
+    }
+
+    constructor(public vm: DemoBasicsViewModelService,
+                private store: Store<any>) {
+        this.vm.connectState('list',
+            this.store.select(selectRepositoryList).pipe(map(this.parseListItems))
+        );
+        this.vm.connectEffect(this.vm.refreshListSideEffect$
+            .pipe(tap(_ => this.store.dispatch(fetchRepositoryList())))
+        );
+    }
+
+    parseListItems(l: RepositoryListItem[]): DemoBasicsItem[] {
+        return l.map(({id, name}) => ({id, name}))
+    }
+
+}
+
+```
+
+The lase example showed how MVVM in implemented based on the reactive state class. What is interesting here is that the template only accesses the ViewModel, nothing else.
+
+But this is part of another document I would say. :D
+
 # Summary
 
 ---
@@ -1435,6 +1686,23 @@ You can find the source code of the examples,
 as well as all the resources in the repository: [💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) on GitHub.
 
 The first-draft is contained in the following repository:
-- [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state) 
+- [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
 A Talk with a good live demo at the end can be found here:
-- [🎥 Angular Vienna, Angular and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)
+- [🎥 Angular Vienna, Angular, and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)
+
+Used RxJS parts: 
+- [interval](https://rxjs.dev/api/function/interval)
+- [timer](https://rxjs.dev/api/function/timer)
+- [tap](https://rxjs.dev/api/operator/tap)
+- [map](https://rxjs.dev/api/operator/map)
+- [mergeAll](https://rxjs.dev/api/operator/mergeAll)
+- [share](https://rxjs.dev/api/operator/share)
+- [shareReplay](https://rxjs.dev/api/operator/shareReplay)
+- [publish](https://rxjs.dev/api/operator/publish)
+- [publishReplay](https://rxjs.dev/api/operator/publishReplay)
+- [takeUntil](https://rxjs.dev/api/operator/takeUntil)
+- [withLatestFrom](https://rxjs.dev/api/operator/withLatestFrom)
+- [Subscription](https://rxjs.dev/api/class/Subscription)
+- [Observable](https://rxjs.dev/api/class/Observable)
+- [Subject](https://rxjs.dev/api/class/Subject)
+- [ReplaySubject](https://rxjs.dev/api/class/ReplaySubject)

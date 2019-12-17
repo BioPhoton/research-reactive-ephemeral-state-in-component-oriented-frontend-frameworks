@@ -1,14 +1,20 @@
+# Research on Reactive-Ephemeral-State in component oriented frameworks
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
-As this is too much text I'm afraid the important things at the end will get lost:
+Angular, RxJS, StateManagement, EphemeralState
 
-> When teaching, give credit where it's due
+--- 
+
+As this is too much text I'm afraid the important things at the end will get lost
+I put it here and also quote one of Richard Feynman's rules he stuck to when teaching:
+
+> Give credit where it's due
  _Richard Feynman_  
 
-Thanks to: 
 - [@niklas_wortmann](https://twitter.com/niklas_wortmann) - may be the only person on earth that read ALL THAT
 - [@juristr](https://twitter.com/juristr) - that pretended he will use it in his projects
 - [@ngrx_io](https://twitter.com/ngrx_io) - that listened to my questions and gave me good feedback
+- [musatov](https://github.com/musatov) - that sent a [PR](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/pull/1) and fixed my messy demo :D
 
 --- 
 
@@ -76,7 +82,7 @@ If you are into reactive programming you will learn about some cool topics.
 
 If you are also into ephemeral state management you can learn how to detect it:
 
-**We defined 3 rules of thumb to detect ephemeral/local state**
+**We defined 3 rules of thumb to detect ephemeral state**
 - No horizontal sharing of state
 - The lifetime of the state is dynamic
 - It processes local relevant events
@@ -1254,9 +1260,10 @@ We focused on understanding the problems, we used the language specific possibil
 and naturally, we ended up with a solution that is compact, robust and solves all related problems in an elegant way.
 
 Let's see how the local state service looks like.
+![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
+
 
 # Basic Usage
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
 
 ## Service Design
 
@@ -1675,9 +1682,33 @@ export class DemoBasicsComponent4 {
 
 The lase example showed how MVVM in implemented based on the reactive state class. What is interesting here is that the template only accesses the ViewModel, nothing else.
 
-But this is part of another document I would say. :D
+But this is part of another document I would suggest. ;p
 
 # Summary
+
+**How to differ global from the ephemeral state:**
+- No horizontal sharing of state
+- The lifetime of the state is dynamic, bound to e.g. a component
+- It processes local relevant events
+
+
+If we take a look at our operator reference list at the end of this document we can see it was a lot about: 
+- unicast vs. multicast
+- hot vs. cold
+
+**The main outcome here was we should ensure that the moment of computation of states is not controlled by the subscriber. 
+It should be hot.**
+
+We learned how to can have a fully reactive flow with
+- **higher-order operators** like [mergeAll](https://rxjs.dev/api/operators/mergeAll)
+The combination with our logic bound to a certain life-time enabled us to create
+- **subscription-less components**
+
+An example implementation of our learning can be found in the resources.
+
+Based on that we used in a minimal example and also made the first test with some design patterns like MVVM.
+
+
 
 ---
 

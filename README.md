@@ -824,7 +824,7 @@ The `interval` creation operator, for example, will only start it's internal tic
 Also, nearly every pipe-able operator will execute only if we have an active subscriber.
 
 An interesting example for a *cold* operator is `share`.
-Even if is multi-casts it's notifications to multiple subscribers,
+Even if it multi-casts its notifications to multiple subscribers,
 it will not emit any notification until at least one subscriber is present.
 
 So it's cold at the beginning but multi-cast after the first subscriber. :)

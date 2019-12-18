@@ -702,7 +702,7 @@ Later on, in this article, we will remember this problem to provide a way to sha
 
 ## The Late Subscriber Problem
 
-In this section, I faced the first time a problem that needed some more thinking. 
+In this section, I faced for the first time a problem that needed some more thinking. 
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
 

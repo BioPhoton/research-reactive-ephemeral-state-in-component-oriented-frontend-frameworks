@@ -180,7 +180,7 @@ This is our first rule of thumb to detect local state:
 
 ### Static vs Dynamic Lifetime of Data Structures
 
-In Angular global state is nearly always shared over global singleton services.
+In Angular, global state is nearly always shared over global singleton services.
 Their lifetime starts even before the root component. And ends after every child component.
 The state's lifetime is ~equal to the Apps lifetime or the browser windows lifetime.
 
@@ -217,7 +217,7 @@ And the logic is located in the more abstract layers of our architecture.
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-changes_processing-global-sources__michael-hladky.png "Processing of Global Sources")
 
 Code dedicated to the local state would nearly always focus on the process of the following sources: 
-- Data from `@InputBindings`
+- Data from `@Input` bindings
 - UI Events
 - Component level Side-Effects
 - Parsing global state to local
@@ -408,7 +408,7 @@ The derivation of data.
 ### Uni and multi-casting with RxJS
 
 As we have multiple sources we calculate the data for every subscription separately.
-This is given by the default behavior of RxJS. It is uni-cased by default.
+This is given by the default behavior of RxJS. It is uni-casted by default.
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast__michael-hladky.png "Uni-Cast VS Multi-Cast")
 
@@ -487,7 +487,7 @@ timeStampSubject.next(dataObject);
 _(used RxJS parts: [map](https://rxjs.dev/api/operator/map)_
 
 You remember the subscriber function we saw in the first example with the observable?
-Operators internally maintain a similar logic. We apply an operator the inner subscriber functions are chained.
+Operators internally maintain a similar logic. When we apply an operator, the inner subscriber functions are chained.
 This is the reason we see the log for the transformation 2 times. For every subscriber one time.
 
 There are also operators that help to add multi-casting in operator chains.

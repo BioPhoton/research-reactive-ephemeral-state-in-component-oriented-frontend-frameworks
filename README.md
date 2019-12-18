@@ -1225,10 +1225,10 @@ export class DeclarativeSideEffectsGoodService implements OnDestroy {
     template: `
         <p>Declarative SideEffects</p>
     `,
-    providers: [StateAndEffectService]
+    providers: [DeclarativeSideEffectsGoodService]
 })
 export class AnyComponent {
-    constructor(private stateService: StateAndEffectService) {
+    constructor(private stateService: DeclarativeSideEffectsGoodService) {
         this.stateService.connectEffect(interval(1000)
             .pipe(tap(_ => ({key: value}))));
     }

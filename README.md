@@ -860,7 +860,7 @@ So far our sources got subscribed to when the view was ready and we rendered the
 As the input from the view is a hot producer of values and injected services too we have to decouple
 the service that handles component state from other sources. 
 
-**So what is the problem?!!11**
+**So what is the problem?!!**
 
 We have hot sources and we have to compose them. As we already learned in the section _sharing work and instances_ nearly every operator returns a cold source. 
 No matter if it was hot before or not.
@@ -1183,7 +1183,7 @@ of subscription handling, as well as value processing and emission in the servic
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
 
-We now have not only way less and maintainable code but also a "subscription-less component". 
+We now have less code and it's maintainable. We also produced a "subscription-less component".
 
 This simple change will enable us to do create way more than just subscription-Less components.
 But this document is dedicated to the very fundamentals.
@@ -1473,7 +1473,7 @@ export class AnyComponent extends LocalState {
 ```
 
 This example shows a material design list that is collapsable.
-It refreshed data every n seconds of if we click the button.
+It refreshed data every n seconds or if we click the button.
 Also, it displays the fetched items.
 
 

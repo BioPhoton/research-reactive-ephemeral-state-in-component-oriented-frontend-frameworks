@@ -3,10 +3,12 @@
 Angular, RxJS, StateManagement, EphemeralState
 
 --- 
+
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
 --- 
-As this is too much text I'm afraid the important things at the end will get lost, I put it here and quote one of Richard Feynman's rules he stuck to when teaching:
+As this is too much text I'm afraid the important things at the end will get lost,
+I put it here and quote one of Richard Feynman's rules he stuck to when teaching:
 
 > Give credit where it's due
  _Richard Feynman_  
@@ -47,12 +49,12 @@ As a Reactive programming library with cold Observables by default, I picked RxJ
 
 - [TL;DR](#tldr)
 - [Methodology](#methodology)
-- [Layers of state](#layers-of-state)
-  - [What is ephemeral state?](#what-is-ephemeral-state)
-      - [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
-      - [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-life-ime-of-data-structures)
-      - [Global vs Local Processed Sources](#global-vs-local-processed-sources)
-    + [Recap](#recap)
+- [Layers of State](#layers-of-state)
+  * [What is the ephemeral state?](#what-is-the-ephemeral-state)
+    + [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
+    + [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-lifetime-of-data-structures)
+    + [Global vs Local Processed Sources](#global-vs-local-processed-sources)
+    + [Recap Ephemeral State](#recap-ephemeral-state)
 - [Problems to Solve on a Low-Level](#problems-to-solve-on-a-low-level)
   * [Timing](#timing)
   * [Subscription Handling](#subscription-handling)
@@ -64,10 +66,9 @@ As a Reactive programming library with cold Observables by default, I picked RxJ
     + [Cold Composition](#cold-composition)
   * [Subscription-Less Interaction with Component StateManagement](#subscription-less-interaction-with-component-statemanagement)
     + [Subscription-Less Handling of Side-Effects](#subscription-less-handling-of-side-effects)
-  * [Recap](#recap-1)
+  * [Recap Problems](#recap-problems)
 - [Basic Usage](#basic-usage)
   * [Service Design](#service-design)
-  * [Service Implementation](#service-implementation)
   * [Service Usage](#service-usage)
 - [Summary](#summary)
 
@@ -235,7 +236,7 @@ The third rule of thumb to detect local state is:
 
 ---
 
-### Recap
+### Recap Ephemeral State
 
 > **We defined 3 rules of thumb to detect ephemeral/local state**
 > - No horizontal sharing of state
@@ -772,7 +773,7 @@ export class LateSubscriberComponent {
 
 }
 ```
-_(used RxJS parts: [startWith](https://rxjs.dev/api/class/ReplaySubject)_
+_(used RxJS parts: [ReplaySubject](https://rxjs.dev/api/class/ReplaySubject)_
 
 This quick solution has 2 major caveats!
 
@@ -1244,7 +1245,7 @@ _(used RxJS parts: [publish](https://rxjs.dev/api/operator/publish)_
 
 Note that the side-effect is now placed in a `tap` operator and the whole observable is handed over.
 
-## Recap
+## Recap Problems
 
 So far we encountered the following problems:
 - sharing work and references
@@ -1454,7 +1455,7 @@ export class AnyComponent extends LocalState {
    
 }
 ```
-_(used RxJS parts: [withLatestFrom(https://rxjs.dev/api/operator/withLatestFrom)_
+_(used RxJS parts: [withLatestFrom](https://rxjs.dev/api/operator/withLatestFrom)_
 
 **Handling LocalSideEffects**
 

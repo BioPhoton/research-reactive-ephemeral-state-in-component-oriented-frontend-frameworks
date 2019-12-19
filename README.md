@@ -100,11 +100,11 @@ Examples on how to introduce different architecture patterns in your component s
 are just some of the nitty-gritty details included!
 
 Here the Important resources:
-- Recording ([🎥 Live Demo at 24:47](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s)): 
+- **Recording** ([🎥 Live Demo at 24:47](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s)): 
   {% youtube I8uaHMs8rw0 %}
-- Repository ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)): 
+- **Repository For Examples** ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)): 
 {% github BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks no-readme %}
-- First-draft: [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
+- **Sourcecode First-draft**: [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
 
 --- 
 
@@ -1719,13 +1719,18 @@ Based on that we used in a minimal example and also made the first test with som
 ---
 
 **Resources**  
-You can find the source code of the examples,   
-as well as all the resources in the repository: [💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/) on GitHub.
+- **Recording** ([🎥 Live Demo at 24:47](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s)):  
 
-The first-draft is contained in the following repository:
-- [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
-A Talk with a good live demo at the end can be found here:
-- [🎥 Angular Vienna, Angular, and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)
+[🎥 Angular Vienna, Angular, and RxJS - Tackling Ephemeral State Reactively](https://www.youtube.com/watch?v=I8uaHMs8rw0)
+- **Slides**:  
+
+[🖼️ Tackling Component State Reactively](https://docs.google.com/presentation/d/1MGzffMw9qaP1-lYyzDJ0LfC8zKJWxCktK9MN8xauU0Q/edit?usp=sharing)
+- **Repository For Examples** ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)):  
+
+[💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/)
+- **Sourcecode First-draft**:  
+
+[📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
 
 Used RxJS parts: 
 - [interval](https://rxjs.dev/api/function/interval)

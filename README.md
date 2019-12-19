@@ -1,20 +1,20 @@
 # Research on Reactive-Ephemeral-State in component oriented frameworks
-### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
 Angular, RxJS, StateManagement, EphemeralState
 
 --- 
+### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
-As this is too much text I'm afraid the important things at the end will get lost
-I put it here and also quote one of Richard Feynman's rules he stuck to when teaching:
+--- 
+As this is too much text I'm afraid the important things at the end will get lost, I put it here and quote one of Richard Feynman's rules he stuck to when teaching:
 
 > Give credit where it's due
  _Richard Feynman_  
 
-- [@niklas_wortmann](https://twitter.com/niklas_wortmann) - may be the only person on earth that read ALL THAT
+- [@ngrx_io](https://twitter.com/ngrx_io) - that listened to my questions and gave me useful feedback
+- [@yjaaidi](http://twitter.com/yjaaidi) and [@niklas_wortmann](https://twitter.com/niklas_wortmann) - may be the only 2 persons on earth that read ALL THAT
 - [@juristr](https://twitter.com/juristr) - that pretended he will use it in his projects
-- [@ngrx_io](https://twitter.com/ngrx_io) - that listened to my questions and gave me good feedback
-- [musatov](https://github.com/musatov) - that sent a [PR](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/pull/1) and fixed my messy demo :D
+- [@mvmusatov](https://twitter.com/mvmusatov) - that sent a [PR](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/pull/1) and fixed my messy demo :D
 
 --- 
 
@@ -30,27 +30,28 @@ If you have a well thought and structured approach on how to manage ephemeral st
 You could master a fully reactive architecture in a scalable and maintainable way.
 
 This article provides you with some fundamental information about my findings in reactive ephemeral state management.
-It is applicable to every framework that is component-oriented and have some life cycle hooks for creation and destruction.  
+It is applicable to every framework that is component-oriented and has some life cycle hooks for creation and destruction.  
 
 The below examples are done with Angular as a framework as it has DI built-in which comes in handy here.
 As a Reactive programming library with cold Observables by default, I picked RxJS as it is well supported.
-
 
 ---
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
 
-# Table of Content @TODO
+---
+
+# Table of Content
 
 <!-- toc -->
 
 - [TL;DR](#tldr)
 - [Methodology](#methodology)
 - [Layers of state](#layers-of-state)
-  * [What is ephemeral state?](#what-is-ephemeral-state)
-    + [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
-    + [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-lifetime-of-data-structures)
-    + [Global vs Local Processed Sources](#global-vs-local-processed-sources)
+  - [What is ephemeral state?](#what-is-ephemeral-state)
+      - [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
+      - [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-life-ime-of-data-structures)
+      - [Global vs Local Processed Sources](#global-vs-local-processed-sources)
     + [Recap](#recap)
 - [Problems to Solve on a Low-Level](#problems-to-solve-on-a-low-level)
   * [Timing](#timing)
@@ -72,6 +73,8 @@ As a Reactive programming library with cold Observables by default, I picked RxJ
 
 <!-- tocstop -->
 
+--- 
+
 # TL;DR
 
 If you are into reactive programming you will learn about some cool topics.
@@ -88,19 +91,21 @@ If you are also into ephemeral state management you can learn how to detect it:
 - It processes local relevant events
 
 Your understanding of the fundamental implementation will get a good boost!
-Examples on how to introduce different architecture patterns in your component structure is only the tip of the iceberg: 
+Examples on how to introduce different architecture patterns in your component structure are only the tip of the iceberg: 
 - Initiation and coupling state to e.g. a component
 - Interaction
 - derivation of state
 
 are just some of the nitty-gritty details included!
 
+Here the Important resources:
+- Recording ([🎥 Live Demo at 24:47](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s)): 
+  {% youtube I8uaHMs8rw0 %}
+- Repository ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)): 
+{% github BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks no-readme %}
+- First-draft: [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
 
-
-
-Here the demo:
-- [🎥 Live Demo](https://www.youtube.com/watch?v=I8uaHMs8rw0&t=24m47s) 
-- [💾 Example Code](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)
+--- 
 
 # Methodology
 
@@ -109,9 +114,9 @@ Here the demo:
 If you go back in history you will find almost all our nowadays "cutting edge problems" already solved. 
 When I realized the first time that life is a "constant evolutionary repetition" I started to change my strategy on solving problems.
 
-Before I almost always started to implement a half-backed cool idea which I was certain is most up to date.
+Before I almost always started to implement a half-backed cool idea which I was certain is most up to date with technologies.
 
-After I made many mistakes (without them I would not be here today) and got some incredibly helpful insights, I changed my way of solving problems completely.
+After I made many mistakes (without them I would not be here today) and got some incredibly helpful insights, I now started to change my way of solving problems completely. 
 Let me quote **The Gang Of Four** to give you the first glimpse of my fundamental changes in how I approach problems:
 
 So here is what the gang of four says about Object-Oriented-Software-Design-Patterns: 
@@ -265,10 +270,10 @@ this section is here to give a quick overview of all the different things to con
 
 **Shouldn't reactive code be by design in a way that timing of certain things becomes irrelevant?**
 
-I mean not that there is no time in observables, or that it does not matter when we subscribe to something,
+I mean, not that there is no time in observables, or that it does not matter when we subscribe to something,
 but when we compose observables we should not care about when any of our state sources exactly emit a value... 
 
-That's the case, in a perfect reactive setup, we don't need to care about those problems.
+In a perfect reactive setup, we don't need to care about those problems.
 However, as Angular is an object-orientated framework we often have to deal with different problems
 related to life-cycles of components and services, router-events and many more things.
 
@@ -284,12 +289,12 @@ In Angular timing is given by the following:
 - For pipes or directives in the template also the components **lifetime**
 
 All timing relates things in Angular are in an object-oriented style, very similar to hot observables.
-Subscription handling can be done declarative over completion operators. 
+Subscription handling can be done declaratively over completion operators. 
 The scheduling process can be controlled both over imperative or over operators and can influence the execution context of the next error or complete callback.
 
 We see that there are two different concepts combined that have completely different ways of dealing with timing. 
 Angular already solved parts of this friction points but some of 
-they are still left and we have to find the right spots to put our glue code and fix the problem.
+them are still left and we have to find the right spots to put our glue code and fix the problem.
 
 ![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/angular-timeline__michael-hladky.png "Angular Timeline")
 
@@ -1225,10 +1230,10 @@ export class DeclarativeSideEffectsGoodService implements OnDestroy {
     template: `
         <p>Declarative SideEffects</p>
     `,
-    providers: [DeclarativeSideEffectsGoodService]
+    providers: [StateAndEffectService]
 })
 export class AnyComponent {
-    constructor(private stateService: DeclarativeSideEffectsGoodService) {
+    constructor(private stateService: StateAndEffectService) {
         this.stateService.connectEffect(interval(1000)
             .pipe(tap(_ => ({key: value}))));
     }

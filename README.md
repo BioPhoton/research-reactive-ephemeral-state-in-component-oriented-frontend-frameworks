@@ -1,6 +1,6 @@
-# Research on Reactive-Ephemeral-State in component oriented frameworks
+# Research on Reactive-Ephemeral-State in component-oriented frameworks
 
-Angular, RxJS, StateManagement, EphemeralState
+Angular, RxJS, StateManagement, LocalState, EphemeralState
 
 --- 
 
@@ -39,7 +39,7 @@ As a Reactive programming library with cold Observables by default, I picked RxJ
 
 ---
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-intro__michael-hladky.png "How to Avoid Observables in Angular - Intro")
 
 ---
 
@@ -110,7 +110,7 @@ Here the Important resources:
 
 # Methodology
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-quote-gang-of-four__michael-hladky.png "Gang of four quote")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-quote-gang-of-four__michael-hladky.png "Gang of four quote")
 
 If you go back in history you will find almost all our nowadays "cutting edge problems" already solved. 
 When I realized the first time that life is a "constant evolutionary repetition" I started to change my strategy on solving problems.
@@ -137,7 +137,7 @@ Of course, there are WAY more, but in this article, I will introduce 3 layers of
 - Persistent Client State (Global State)
 - Ephemeral Client State (Local State)
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_layers-of-state__michael-hladky.png "Layers of State")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_layers-of-state__michael-hladky.png "Layers of State")
 
 **Persistent Server State** is the data in your database. It is provided to the consumer over a data API like REST, GraphQL, Websocket, etc.
 This is very different from **Meta State**, which is information related to the status of a resource that provides us a state. E.g. Loading, Error, Success, etc.
@@ -150,7 +150,7 @@ In this article, I want to focus on the ephemeral state.
 
 ## What is the ephemeral state?
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_ephemeral-state__michael-hladky.png "What is Ephemeral State")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_ephemeral-state__michael-hladky.png "What is Ephemeral State")
 
 The ephemeral state is just one of many names for data structures 
 that needed to be managed on the client under special conditions.
@@ -171,14 +171,14 @@ It is the state we share globally in our app e.g. a `@ngRx/store` or the good ol
 
 This is in this article called persistent state.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_global-accessible__michael-hladky.png "Global Accessible State")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_global-accessible__michael-hladky.png "Global Accessible State")
 
 As we can see one global source distributes state to the whole app.
  
 If we compare this to a local state we see that this data structure is provided and managed only in a certain time-frame of your app.
 For example in a component or directive.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_local-accessible__michael-hladky.png "Local Accessible State")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_local-accessible__michael-hladky.png "Local Accessible State")
 
 This is our first rule of thumb to detect local state: 
 
@@ -191,16 +191,16 @@ Their lifetime starts even before the root component. And ends after every child
 The state's lifetime is ~equal to the Apps lifetime or the browser windows lifetime.
 
 This is called a static lifetime.
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-global-singleton-service__michael-hladky.png "Lifetime Global Singleton Service")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_lifetime-global-singleton-service__michael-hladky.png "Lifetime Global Singleton Service")
 
 
 If we compare this to the lifetime of other building blocks of Angular we can see their lifetime is way more dynamic.
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-angular-building-blocks__michael-hladky.png "Lifetime Angular Building Blocks")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_lifetime-angular-building-blocks__michael-hladky.png "Lifetime Angular Building Blocks")
 
 State in this building blocks is tied to the lifetime of their owners, their hosts and if shared this state is shared then only with children.
 
 The best example of a dynamic lifetime is data that gets rendered over the `async` pipe.
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_lifetime-async-pipe__michael-hladky.png "Lifetime async Pipe")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_lifetime-async-pipe__michael-hladky.png "Lifetime async Pipe")
 
 The lifetime depends on the evaluation of the template expression, a potential `*ngIf` that wraps the expression or e.g a directive.
 
@@ -220,7 +220,7 @@ Where our global state service nearly always processes remote sources:
 
 And the logic is located in the more abstract layers of our architecture.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-changes_processing-global-sources__michael-hladky.png "Processing of Global Sources")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-changes_processing-global-sources__michael-hladky.png "Processing of Global Sources")
 
 Code dedicated to the local state would nearly always focus on the process of the following sources: 
 - Data from `@InputBindings`
@@ -228,7 +228,7 @@ Code dedicated to the local state would nearly always focus on the process of th
 - Component level Side-Effects
 - Parsing global state to local
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-changes_processing-local-sources__michael-hladky.png "Processing of Local Sources")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-changes_processing-local-sources__michael-hladky.png "Processing of Local Sources")
 
 The third rule of thumb to detect local state is: 
 
@@ -267,7 +267,7 @@ As we defined the way how we want to distribute our data let me list a set of pr
 As a lot of problems I ran into in applications are related to timing issues, 
 this section is here to give a quick overview of all the different things to consider.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Component Life Cycle Hooks")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Component Life Cycle Hooks")
 
 **Shouldn't reactive code be by design in a way that timing of certain things becomes irrelevant?**
 
@@ -297,7 +297,7 @@ We see that there are two different concepts combined that have completely diffe
 Angular already solved parts of this friction points but some of 
 them are still left and we have to find the right spots to put our glue code and fix the problem.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/angular-timeline__michael-hladky.png "Angular Timeline")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/angular-timeline__michael-hladky.png "Angular Timeline")
 
 This chart shows a minimal Angular app with the different building units ant their timing:  
 In this example it marks:
@@ -326,14 +326,14 @@ As subscriptions in the `Pipe` or `Directive` are handled over their life-cycle
 hooks automatically, we only have to discuss the scenarios for side-effects.
 
 Let's take a quick look to the diagram from before:
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Life cycle hooks component")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_timing-component-lifecycle__michael-hladky.png "Life cycle hooks component")
 
 So what could be a good strategy related to the timing of subscriptions and their termination?
 
 One way to solve it would be to subscribe as early as possible and unsubscribe as late as possible.
 
 On a diagram it would look like that:
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_subscription-handling__michael-hladky.png "Subscription Handling Strategy")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_subscription-handling__michael-hladky.png "Subscription Handling Strategy")
 
 
 ```typescript
@@ -416,7 +416,7 @@ The derivation of data.
 As we have multiple sources we calculate the data for every subscription separately.
 This is given by the default behavior of RxJS. It is uni-cased by default.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast__michael-hladky.png "Uni-Cast VS Multi-Cast")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_uni-case-vs-multi-cast__michael-hladky.png "Uni-Cast VS Multi-Cast")
 
 **Basic uni-cast examples:**
 ```typescript
@@ -463,7 +463,7 @@ timeStampSubject.next(dataObject);
 ```
 We see how we can share data, now let's take a look at operations:
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-operators__michael-hladky.png "Uni-Cast VS Multi-Cast With Operators")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-operators__michael-hladky.png "Uni-Cast VS Multi-Cast With Operators")
 
 **Operators uni-cast examples:**
 ```typescript
@@ -532,7 +532,7 @@ With this knowledge let's take a look at some examples:
 In our view, we could do some processing for incoming data. 
 An example could be an array of items from an HTTP call.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-work__michael-hladky.png "Uni-Cast VS Multi-Cast - Work")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-work__michael-hladky.png "Uni-Cast VS Multi-Cast - Work")
 
 ```typescript
 @Component({
@@ -575,7 +575,7 @@ This is a rare case but important to know if you work fully reactive.
 To start this section let's discuss the components implementation details first.
 We focus on the component's outputs. 
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-instances__michael-hladky.png "Uni-Cast VS Multi-Cast - Instance")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_uni-case-vs-multi-cast-instances__michael-hladky.png "Uni-Cast VS Multi-Cast - Instance")
 
 ```typescript
 @Component({
@@ -710,7 +710,7 @@ Later on, in this article, we will remember this problem to provide a way to sha
 
 In this section, I faced the first time a problem that needed some more thinking. 
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
 
 Incoming values arrive before the subscription has happened.
 
@@ -734,7 +734,7 @@ export class LateSubscriberComponent {
 
 }
 ```
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-late-subscriber-problem__michael-hladky.png "Late Subscriber - Problem")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-late-subscriber-problem__michael-hladky.png "Late Subscriber - Problem")
 
 We call this situation a late subscriber problem. In this case, the view is a late subscribe to the values from '@Input()' properties.
 There are several situations from our previous explorations that have this problem:
@@ -753,7 +753,7 @@ There are several situations from our previous explorations that have this probl
 A quick solution here would replay the latest notification to use a ReplaySubject with bufferSize 1.
 This would cache the latest emitted value and replay it when the async pipe subscribes.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/late-subscriber-solution__michael-hladky.png "Late Subscriber - First Solution")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/late-subscriber-solution__michael-hladky.png "Late Subscriber - First Solution")
 
 **Primitive Solution**
 ```typescript
@@ -797,7 +797,7 @@ Furthermore, it would force the third party to implement this too.
 
 IMHO not scalable.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-workload__michael-hladky.png "Caveat Workload")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-workload__michael-hladky.png "Caveat Workload")
 
 Another downside is the bundle size of ShareReplay. 
 But it will be used anyway somewhere in our architecture, so it's a general downside.
@@ -806,7 +806,7 @@ But it will be used anyway somewhere in our architecture, so it's a general down
 The second and more tricky caveat is composition is still cold.
 we rely on the consumer to initialize state composition.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-cold-composition__michael-hladky.png "Caveat Cold Composition")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-cold-composition__michael-hladky.png "Caveat Cold Composition")
 
 ### Cold Composition
 
@@ -845,7 +845,7 @@ If we call `connect` on it we connect to the source an start to execute the logi
 
 --- 
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-hot-cold_unicast-multicast.png "Hot vs Cold, Unicast vs Multicast")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-hot-cold_unicast-multicast.png "Hot vs Cold, Unicast vs Multicast")
 
 ---
 
@@ -954,7 +954,7 @@ If we run the code and click the button first and then open the result area we s
 No matter which of the above ways we try, nothing works. 
 We always lose values if no subscriber is present.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-sate-subscriber-replay-cold-composition-problem__michael-hladky.png "Cold Composition - Problem")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-cold-composition-problem__michael-hladky.png "Cold Composition - Problem")
 
 Even if the source is hot (the subject in the service is defined on instantiation) the composition over `scan` made the stream cold again.
 This means the composed values can be received only if there is at least 1 subscriber. 
@@ -962,7 +962,7 @@ In our case, the subscriber was the components `async` pipe in the template.
 
 Let's see how we can implement the above in a way we could run hot composition:
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-sate-subscriber-replay-cold-composition-solution__michael-hladky.png "Cold Composition - Solution")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-cold-composition-solution__michael-hladky.png "Cold Composition - Solution")
 
 **Hot Composition Service:**
 ```typescript
@@ -1005,7 +1005,7 @@ Well, known implementations of sate management like `@ngrx/store` in angular,
 which is a global state management library, implemented parts of the consumer-facing API imperatively.
 Also, all implementations of REDUX in react did it like that.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-sate-declarative-interaction-setter__michael-hladky.png "Subscription-Less Component - Problem with setter")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-declarative-interaction-setter__michael-hladky.png "Subscription-Less Component - Problem with setter")
 
 The provided method is `dispatch` which accepts a single value, an action, that gets sent to the store. 
 
@@ -1106,7 +1106,7 @@ export class AnyComponent implements OnDestroy {
 As we can see as soon as we deal with something compose-able setters don't work anymore.
 We end up in a very ugly code. We break the reactive flow and we have to take care of subscriptions.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-declarative-interaction-breaking-flow__michael-hladky.png "Subscription-Less Component - Breaking the reactive flow")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-declarative-interaction-breaking-flow__michael-hladky.png "Subscription-Less Component - Breaking the reactive flow")
 
 But how can we go more declarative or even reactive? 
 **By providing something compose-able** :)
@@ -1115,7 +1115,7 @@ Like an observable itself. :)
 
 By adding a single line of code we can go **fully declarative** as well as **fully subscription-less**.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-declarative-interaction-connector__michael-hladky.png "Subscription-Less Component - Connector")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-declarative-interaction-connector__michael-hladky.png "Subscription-Less Component - Connector")
 
 **Declarative Interaction Service**
 ```typescript
@@ -1187,7 +1187,7 @@ connectState(o: Observable<{ [key: string]: any }>) {
 By providing the whole observable we can handle all related mechanisms
 of subscription handling, as well as value processing and emission in the service itself and hide all this away from others.
 
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
 
 We now have not only way less and maintainable code but also a "subscription-less component". 
 
@@ -1266,7 +1266,7 @@ We focused on understanding the problems, we used the language specific possibil
 and naturally, we ended up with a solution that is compact, robust and solves all related problems in an elegant way.
 
 Let's see how the local state service looks like.
-![](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/raw/master/images/reactive-local-state-first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
+![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-first-draft__michael-hladky.png "Reactive Ephemeral State - First Draft")
 
 
 # Basic Usage
@@ -1727,7 +1727,7 @@ Based on that we used in a minimal example and also made the first test with som
 [🖼️ Tackling Component State Reactively](https://docs.google.com/presentation/d/1MGzffMw9qaP1-lYyzDJ0LfC8zKJWxCktK9MN8xauU0Q/edit?usp=sharing)
 - **Repository For Examples** ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)):  
 
-[💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/blog-crafting-reactive-ephemeral-state-in-angular-and-rxjs/)
+[💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/)
 - **Sourcecode First-draft**:  
 
 [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  

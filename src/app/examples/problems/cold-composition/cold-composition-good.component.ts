@@ -8,8 +8,8 @@ import {SomeGoodService} from "./some-good.service";
         <button mat-raised-button [color]="'primary'" (click)="updateState()">update state</button><br/>
         <mat-expansion-panel [(expanded)]="isOpen">
             <mat-expansion-panel-header>
-                <mat-panel-title>Cold Composition</mat-panel-title>
-                <mat-panel-description>subscriber controls composition</mat-panel-description>
+                <mat-panel-title>Hot Composition</mat-panel-title>
+                <mat-panel-description>Source controls composition</mat-panel-description>
             </mat-expansion-panel-header>
             <ng-container *ngIf="isOpen">
                 <code>someService.composedState$: {{someGoodService.composedState$ | async | json}}</code>

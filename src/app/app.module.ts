@@ -17,8 +17,14 @@ import {AppComponent} from "./app-component/app.component";
 import {MatCardModule} from "@angular/material";
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import {GithubModule} from "@data-access/github";
+import {GithubModule} from "./data-access/github";
 import {ExampleContainerComponent} from "./examples/examples.container.component";
+import {ColdCompositionModule} from "./examples/problems/cold-composition/cold-composition.module";
+import {LateSubscriberModule} from "./examples/problems/late-subscriber/late-subscriber.module";
+import {SubscriptionHandlingModule} from "./examples/problems/subscription-handling/subscription-handling.module";
+import {SharingAReferenceModule} from "./examples/problems/sharing-a-reference/sharing-a-reference.module";
+import {DeclarativeInteractionModule} from "./examples/problems/declarative-interaction/declarative-interaction.module";
+import {DemoBasicsModule} from "./examples/demo-basics/demo-basics.module";
 
 export const materialModules = [
     BrowserAnimationsModule,
@@ -40,7 +46,13 @@ export const materialModules = [
 
         RouterModule.forRoot(ROUTES),
         materialModules,
-        GithubModule
+        GithubModule,
+        ColdCompositionModule,
+        LateSubscriberModule,
+        SubscriptionHandlingModule,
+        SharingAReferenceModule,
+        DeclarativeInteractionModule,
+        DemoBasicsModule
     ],
     declarations: [AppComponent, ExampleContainerComponent],
     bootstrap: [AppComponent]

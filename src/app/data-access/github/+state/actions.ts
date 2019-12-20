@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {RepositoryListItem} from "@data-access/github";
+import {RepositoryListItem} from "./repository-list.model";
 
 export const fetchRepositoryList = createAction(
     '[Repository List] Fetch',

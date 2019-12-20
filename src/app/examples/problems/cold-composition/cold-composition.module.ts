@@ -4,10 +4,10 @@ import {ColdCompositionContainerComponent} from "./cold-composition.container.co
 import {ColdCompositionBadComponent} from "./cold-composition-bad.component";
 import {ColdCompositionGoodComponent} from "./cold-composition-good.component";
 import {FormsModule} from "@angular/forms";
-import {MatButtonModule, MatSlideToggleModule} from "@angular/material";
+import {MatButtonModule, MatExpansionModule, MatSlideToggleModule} from "@angular/material";
 
 const DECLARATIONS = [ColdCompositionContainerComponent, ColdCompositionBadComponent, ColdCompositionGoodComponent];
-const MATERIAL_MODULES = [MatButtonModule, MatSlideToggleModule];
+const MATERIAL_MODULES = [MatButtonModule, MatSlideToggleModule, MatExpansionModule];
 export const ROUTES = [{
     path: '',
     component: ColdCompositionContainerComponent

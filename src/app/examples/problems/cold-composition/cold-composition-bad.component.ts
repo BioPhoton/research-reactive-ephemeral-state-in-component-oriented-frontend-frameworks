@@ -6,12 +6,15 @@ import {SomeBadService} from "./some-bad.service";
     template: `
         <h1>Cold Composition</h1>
         <button mat-raised-button color="primary" (click)="updateState()">update state</button><br/>
-        <mat-slide-toggle [(ngModel)]="isOpen">
-            Show result
-        </mat-slide-toggle>
-        <code *ngIf="isOpen">
-            someService.composedState$: {{someBadService.composedState$ | async | json}}
-        </code>
+        <mat-expansion-panel [(expanded)]="isOpen">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Cold Composition</mat-panel-title>
+                <mat-panel-description>subscriber controls composition</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="isOpen">
+                <code>someService.composedState$: {{someBadService.composedState$ | async | json}}</code>
+            </ng-container>
+        </mat-expansion-panel>
     `,
     providers: [SomeBadService]
 })

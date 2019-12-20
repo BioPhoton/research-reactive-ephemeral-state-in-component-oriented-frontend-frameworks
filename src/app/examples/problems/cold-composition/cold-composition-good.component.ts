@@ -6,24 +6,27 @@ import {SomeGoodService} from "./some-good.service";
     template: `
         <h1>Hot Composition</h1>
         <button mat-raised-button [color]="'primary'" (click)="updateState()">update state</button><br/>
-        <mat-slide-toggle [(ngModel)]="isOpen">
-            Show result
-        </mat-slide-toggle>
-        <code *ngIf="isOpen">
-            someService.composedState$: {{someBadService.composedState$ | async | json}}
-        </code>
+        <mat-expansion-panel [(expanded)]="isOpen">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Cold Composition</mat-panel-title>
+                <mat-panel-description>subscriber controls composition</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="isOpen">
+                <code>someService.composedState$: {{someGoodService.composedState$ | async | json}}</code>
+            </ng-container>
+        </mat-expansion-panel>
     `,
     providers: [SomeGoodService]
 })
 export class ColdCompositionGoodComponent {
     isOpen = false;
 
-    constructor(public someBadService: SomeGoodService) {
+    constructor(public someGoodService: SomeGoodService) {
 
     }
 
     updateState() {
-        this.someBadService.commands$.next({sum: 1})
+        this.someGoodService.commands$.next({sum: 1})
     }
 
 }

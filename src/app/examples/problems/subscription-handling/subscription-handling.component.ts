@@ -7,6 +7,7 @@ import {SubscriptionHandlingService} from './subscription-handling.service';
     selector: 'subscription-handling',
     template: `
        <h1>Subscription Handling</h1>
+        <p>Find results in the console</p>
     `,
     providers: [SubscriptionHandlingService]
 })

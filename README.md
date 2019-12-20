@@ -3,7 +3,6 @@
 Angular, RxJS, StateManagement, LocalState, EphemeralState
 
 --- 
-
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
 --- 
@@ -51,21 +50,21 @@ As a Reactive programming library with cold Observables by default, I picked RxJ
 - [Methodology](#methodology)
 - [Layers of State](#layers-of-state)
   * [What is the ephemeral state?](#what-is-the-ephemeral-state)
-    + [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
-    + [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-lifetime-of-data-structures)
-    + [Global vs Local Processed Sources](#global-vs-local-processed-sources)
-    + [Recap Ephemeral State](#recap-ephemeral-state)
+      + [Global vs Local Accessibility of Data Structures](#global-vs-local-accessibility-of-data-structures)
+      + [Static vs Dynamic Lifetime of Data Structures](#static-vs-dynamic-lifetime-of-data-structures)
+      + [Global vs Local Processed Sources](#global-vs-local-processed-sources)
+      + [Recap Ephemeral State](#recap-ephemeral-state)
 - [Problems to Solve on a Low-Level](#problems-to-solve-on-a-low-level)
   * [Timing](#timing)
   * [Subscription Handling](#subscription-handling)
   * [Sharing State and State Derivations](#sharing-state-and-state-derivations)
-    + [Uni and multi-casting with RxJS](#uni-and-multi-casting-with-rxjs)
-    + [Sharing Work](#sharing-work)
-    + [Sharing Instances](#sharing-instances)
+      + [Uni and multi-casting with RxJS](#uni-and-multi-casting-with-rxjs)
+      + [Sharing Work](#sharing-work)
+      + [Sharing Instances](#sharing-instances)
   * [The Late Subscriber Problem](#the-late-subscriber-problem)
-    + [Cold Composition](#cold-composition)
+      + [Cold Composition](#cold-composition)
   * [Subscription-Less Interaction with Component StateManagement](#subscription-less-interaction-with-component-statemanagement)
-    + [Subscription-Less Handling of Side-Effects](#subscription-less-handling-of-side-effects)
+      + [Subscription-Less Handling of Side-Effects](#subscription-less-handling-of-side-effects)
   * [Recap Problems](#recap-problems)
 - [Basic Usage](#basic-usage)
   * [Service Design](#service-design)
@@ -310,6 +309,8 @@ It also shows where we need hot observables and where we need to replay values.
 
 ## Subscription Handling
 
+{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/subscription-handling/subscription-handling-bad.component.ts %}
+
 Let's discuss where subscriptions should take place and for which reason they are made.
 
 Subscriptions are here to receive values from any source, cold or hot.
@@ -356,7 +357,7 @@ export class SubscriptionHandlingComponent implements OnDestroy {
     }
 }
 ```
-_(used RxJS parts: [timer](https://rxjs.dev/api/function/timer), [tap](https://rxjs.dev/api/operator/tap), [takeUntil](https://rxjs.dev/api/operator/takeUntil), [Subject](https://rxjs.dev/api/class/Subject)_
+_(used RxJS parts: [timer](https://rxjs.dev/api/function/timer), [tap](https://rxjs.dev/api/operator/tap), [takeUntil](https://rxjs.dev/api/operator/takeUntil), [Subject](https://rxjs.dev/api/class/Subject))_
 
 We already have a declarative subscription handling. 
 But this code could get moved somewhere else. We could use
@@ -438,7 +439,7 @@ timeStampObservable
 // create date object
 // date:  Fri Dec 13 2042 00:00:01 
 ```
-_(used RxJS parts: [Observable](https://rxjs.dev/api/class/Observable)_
+_(used RxJS parts: [Observable](https://rxjs.dev/api/class/Observable))_
 
 If we want to multicast the values we could do something like that:
 
@@ -490,7 +491,7 @@ timeStampSubject.next(dataObject);
 // transformation of Fri Dec 13 2042 00:00:00
 // date:  1576231670737
 ```
-_(used RxJS parts: [map](https://rxjs.dev/api/operator/map)_
+_(used RxJS parts: [map](https://rxjs.dev/api/operator/map))_
 
 You remember the subscriber function we saw in the first example with the observable?
 Operators internally maintain a similar logic. We apply an operator the inner subscriber functions are chained.
@@ -523,10 +524,13 @@ timeStampSubject.next(dataObject);
 // date:  1576231670737
 // date:  1576231670737
 ```
-_(used RxJS parts: [share](https://rxjs.dev/api/operator/share)_
+_(used RxJS parts: [share](https://rxjs.dev/api/operator/share))_
 
 
 ### Sharing Work
+
+{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/sharing-a-reference/sharing-a-reference-bad.display.component.ts %}
+
 With this knowledge let's take a look at some examples:
 
 In our view, we could do some processing for incoming data. 
@@ -565,7 +569,7 @@ export class AnyComponent {
         );
 }
 ```
-_(used RxJS parts: [shareReplay](https://rxjs.dev/api/operator/shareReplay)_
+_(used RxJS parts: [shareReplay](https://rxjs.dev/api/operator/shareReplay))_
 
 Here we use `shareReplay` to cache the last value, replay it and share all notifications with multiple subscribers.
 
@@ -602,7 +606,7 @@ export class AnyComponent {
     @Output() compOutput = interval(1000);
 }
 ```
-_(used RxJS parts: [interval](https://rxjs.dev/api/function/interval)_
+_(used RxJS parts: [interval](https://rxjs.dev/api/function/interval))_
 
 An observable for example provides a `subscribe` method. 
 Therefore we can directly use it as a value stream for our `@Output` binding.
@@ -662,7 +666,7 @@ export class SharingAReferenceComponent {
 
 }
 ```
-_(used RxJS parts: [startWith](https://rxjs.dev/api/operator/startWith)_
+_(used RxJS parts: [startWith](https://rxjs.dev/api/operator/startWith))_
 
 
 If we run the code we will see that the values are not updating in the parent component.
@@ -707,6 +711,9 @@ This does not solve the problem of cold composition but it is fine to share spec
 Later on, in this article, we will remember this problem to provide a way to share work instances.
 
 ## The Late Subscriber Problem
+
+{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/late-subscriber/late-subscriber.display.component.ts %}
+
 
 In this section, I faced the first time a problem that needed some more thinking. 
 
@@ -773,7 +780,7 @@ export class LateSubscriberComponent {
 
 }
 ```
-_(used RxJS parts: [ReplaySubject](https://rxjs.dev/api/class/ReplaySubject)_
+_(used RxJS parts: [ReplaySubject](https://rxjs.dev/api/class/ReplaySubject))_
 
 This quick solution has 2 major caveats!
 
@@ -809,6 +816,7 @@ we rely on the consumer to initialize state composition.
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-cold-composition__michael-hladky.png "Caveat Cold Composition")
 
 ### Cold Composition
+{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/cold-composition/some-bad.service.ts %}
 
 Let's quickly clarify hot/cold and uni-case/multi-cast.
 
@@ -914,7 +922,7 @@ export class SomeService {
         );
 }
 ```
-_(used RxJS parts: [scan](https://rxjs.dev/api/operator/scan)_
+_(used RxJS parts: [scan](https://rxjs.dev/api/operator/scan))_
 
 In this service we could try to solve our problem by using:
 - share()
@@ -987,7 +995,7 @@ export class SomeService {
 
 }
 ```
-_(used RxJS parts: [publishReplay](https://rxjs.dev/api/operator/publishReplay), [Subscription](https://rxjs.dev/api/class/Subscription)_
+_(used RxJS parts: [publishReplay](https://rxjs.dev/api/operator/publishReplay), [Subscription](https://rxjs.dev/api/class/Subscription))_
 
 We kept the component untouched and only applied changes to the service.
 
@@ -997,6 +1005,7 @@ source replay the last emitted value by using `1` as `bufferSize`.
 In the service constructor, we called `connect` to make it hot subscribe to the source.
 
 ## Subscription-Less Interaction with Component StateManagement
+{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/declarative-interaction/declarative-interaction-bad.component.ts %}
 
 So far we only had focused on independent peace and didn't pay much attention to their interaction.
 Let's analyze the way we interact with components and services so far.
@@ -1136,7 +1145,7 @@ export class StateService implements OnDestroy {
     ...
 }
 ```
-_(used RxJS parts: [mergeAll](https://rxjs.dev/api/operator/mergeAll)_
+_(used RxJS parts: [mergeAll](https://rxjs.dev/api/operator/mergeAll))_
 
 **Declarative Interaction Component**
 ```typescript
@@ -1241,7 +1250,7 @@ export class AnyComponent {
 
 }
 ```
-_(used RxJS parts: [publish](https://rxjs.dev/api/operator/publish)_
+_(used RxJS parts: [publish](https://rxjs.dev/api/operator/publish) ))_
 
 Note that the side-effect is now placed in a `tap` operator and the whole observable is handed over.
 
@@ -1455,7 +1464,7 @@ export class AnyComponent extends LocalState {
    
 }
 ```
-_(used RxJS parts: [withLatestFrom](https://rxjs.dev/api/operator/withLatestFrom)_
+_(used RxJS parts: [withLatestFrom](https://rxjs.dev/api/operator/withLatestFrom))_
 
 **Handling LocalSideEffects**
 

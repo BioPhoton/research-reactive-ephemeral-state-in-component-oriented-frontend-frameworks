@@ -9,7 +9,7 @@ export const ROUTES = [
   }
 ];
 const DECLARATIONS = [
-    SubscriptionHandlingComponent, SubscriptionHandlingComponent
+    SubscriptionHandlingComponent
 ];
 @NgModule({
   declarations: [DECLARATIONS],

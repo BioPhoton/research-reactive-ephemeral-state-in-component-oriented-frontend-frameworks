@@ -12,10 +12,9 @@ export class DeclarativeSideEffectsGoodService implements OnDestroy {
             .pipe(
                 // process observables of side-effects
                 // process side-effect
-                mergeAll(),
-                publishReplay(1)
-            ) as ConnectableObservable<any>)
-            .connect();
+                mergeAll())
+            .subscribe()
+        )
     }
 
     ngOnDestroy(): void {

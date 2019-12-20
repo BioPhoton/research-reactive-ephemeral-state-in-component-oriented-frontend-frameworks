@@ -1,62 +1,8 @@
 import {ConnectableObservable, merge, Observable, OperatorFunction, pipe, Subject, Subscription} from 'rxjs';
 import {distinctUntilChanged, filter, mergeAll, pluck, publishReplay, scan, shareReplay} from 'rxjs/operators';
 import {Injectable, OnDestroy} from "@angular/core";
-import {t} from 'typy';
-import * as objectPath from 'object-path';
 
 export const stateAccumulator = (state, command): { [key: string]: any } => ({...state, ...command});
-
-export const deleteUndefinedStateAccumulator = (state, [pathToDelete, value]: [string, any]): { [key: string]: any } => {
-    console.log('deleteUndefinedStateAccumulator', state);
-
-    const isKeyToDeletePresent = t(state, pathToDelete).isDefined;
-    console.log('isKeyToDeletePresent', isKeyToDeletePresent);
-
-    // The key you want to delete is not stored :)
-    if (!isKeyToDeletePresent && value === undefined) {
-        return state;
-    }
-    // Delete slice
-    if (value === undefined) {
-        console.log('value === undefined', value);
-        state = deletePropertyPath(state, pathToDelete);
-        // const {[pathToDelete]: v, ...newS} = state as any;
-        return state;
-    }
-    // update state
-    objectPath.set(state, pathToDelete, value);
-    return state;
-
-    function deletePropertyPath(obj, path) {
-
-        if (!obj || !path) {
-            return obj;
-        }
-
-        if (typeof path === 'string') {
-            path = path.split('.');
-        }
-
-        return deletePath(obj, path);
-
-        function deletePath(obj, path: string[]) {
-            console.log('deletePath', path);
-            const pathLength = path.length;
-            let layer = obj;
-            return (isPresent, prop, i) => {
-                if (isPresent && prop in layer) {
-                    layer = obj[prop];
-                    if (i >= pathLength-1) {
-                        delete layer[prop];
-                        return obj
-                    }
-                    return true;
-                }
-                return false;
-            }
-        }
-    }
-};
 
 
 @Injectable()
@@ -78,9 +24,8 @@ export class LocalState<T> implements OnDestroy {
 
     constructor() {
         this._subscription.add((this._state$ as ConnectableObservable<any>).connect());
-        this._subscription.add((this._effectSubject
-            .pipe(mergeAll(), publishReplay(1)
-            ) as ConnectableObservable<any>).connect()
+        this._subscription.add(this._effectSubject
+            .pipe(mergeAll()).subscribe()
         );
     }
 
@@ -164,16 +109,16 @@ export class LocalState<T> implements OnDestroy {
      * ls.select(pipe(map(s => s.test), startWith('unknown test value')));
      */
     // For undefined arguments i.e select()
-   // select<R, K extends keyof T>(operator?: K): Observable<T>;
+    // select<R, K extends keyof T>(operator?: K): Observable<T>;
     select<R = T>(operatorOrPath?: OperatorFunction<T, R>): Observable<R>;
     // For OperatorFunction i.e. pipe(map(s => s.slice)), map(s => s.slice) or mapTo('value')
     select<K extends keyof T, R>(operatorOrPath: K): Observable<R>;
     select<T, R>(operatorOrPath: OperatorFunction<T, R>): Observable<R> {
-        let oprs: OperatorFunction<T, R> =  pipe() as OperatorFunction<T, R>;
+        let oprs: OperatorFunction<T, R> = pipe() as OperatorFunction<T, R>;
         if (typeof operatorOrPath === 'string') {
             const path: string = operatorOrPath;
             oprs = pipe(pluck(...path.split('.')));
-        } else if(typeof operatorOrPath === 'function') {
+        } else if (typeof operatorOrPath === 'function') {
             oprs = operatorOrPath
         }
 

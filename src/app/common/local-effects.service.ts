@@ -4,13 +4,11 @@ import {mergeAll, publishReplay} from 'rxjs/operators';
 
 @Injectable()
 export class LocalEffects implements OnDestroy {
-    private subscription = new Subscription();
+    private subscription: Subscription;
     private effectSubject = new Subject<Observable<{ [key: string]: number }>>();
     constructor() {
-        this.subscription.add((this.effectSubject
-            .pipe(mergeAll(), publishReplay(1)
-            ) as ConnectableObservable<any>).connect()
-        );
+        this.subscription = this.effectSubject
+            .pipe(mergeAll()).subscribe();
     }
     connectEffect(o: Observable<any>): void {
         this.effectSubject.next(o);

@@ -1284,72 +1284,175 @@ Let's see how the local state service looks like.
 
 **State Logic**
 ```typescript
-export class LocalState<T> {
-    private _subscription = new Subscription();
-    private _stateObservables = new Subject<Observable<Partial<T>>>();
-    private _stateSlices = new Subject<Partial<T>>();
-    private _effectSubject = new Subject<any>();
+import {ConnectableObservable, merge, noop, Observable, OperatorFunction, Subject, Subscription, UnaryFunction} from 'rxjs';
+import {map, mergeAll, pluck, publishReplay, scan, tap} from 'rxjs/operators';
 
-    private stateAccumulator = (acc: T, command: Partial<T>): T => ({...acc, ...command});
-
-    private _state$ = merge(
-        this._stateObservables.pipe(mergeAll()),
-        this._stateSlices
-    ).pipe(
-        scan(this.stateAccumulator, {} as T),
-        publishReplay(1)
+export function stateful<T>() {
+  return (o: Observable<T>): Observable<T> => {
+    return o.pipe(
+      filter(v => v !== undefined),
+      distinctUntilChanged(),
+      shareReplay(1)
     );
+  };
+}
 
-    constructor() {
-        this._subscription.add((this._state$ as ConnectableObservable<T>).connect());
-        this._subscription.add((this._effectSubject
-            .pipe(mergeAll(), publish()
-            ) as ConnectableObservable<any>).connect()
+function pipeFromArray<T, R>(fns: Array<UnaryFunction<T, R>>): UnaryFunction<T, R> {
+  if (!fns) {
+    return noop as UnaryFunction<any, any>;
+  }
+
+  if (fns.length === 1) {
+    return fns[0];
+  }
+
+  return function piped(input: T): R {
+    return fns.reduce((prev: any, fn: UnaryFunction<T, R>) => fn(prev), input as any);
+  };
+}
+
+export class State<T> {
+  private subscription = new Subscription();
+  private stateObservables = new Subject<Observable<Partial<T>>>();
+  private effectSubject = new Subject<any>();
+  private stateSlices = new Subject<Partial<T>>();
+
+  private state$ = merge(
+    this.stateObservables.pipe(mergeAll()),
+    this.stateSlices
+  ).pipe(
+    scan(this.stateAccumulator, {} as T),
+    publishReplay(1)
+  );
+
+  constructor() {
+    this.init();
+  }
+
+  private stateAccumulator(acc: T, command: Partial<T>): T {
+    const a = (acc as any) as object;
+    const c = (command as any) as object;
+    return ({...a, ...c} as T);
+  }
+
+  init() {
+    this.subscription.add((this.state$ as ConnectableObservable<T>).connect());
+    this.subscription.add(
+      this.effectSubject.pipe(mergeAll())
+        .subscribe()
+    );
+  }
+
+
+  setState(s: Partial<T>): void {
+    this.stateSlices.next(s);
+  }
+  
+  connectState<A extends keyof T>(str: A, obs: Observable<T[A]>): void;
+  connectState<A extends keyof T>(obs: Observable<Partial<T>>): void;
+  connectState<A extends keyof T>(strOrObs: any, obs?: any): void {
+    if (typeof strOrObs === 'string') {
+      this.stateObservables.next(obs.pipe(map(s => ({[strOrObs as A]: s}))) as Observable<T[A]>);
+    } else {
+      this.stateObservables.next(strOrObs);
+    }
+  }
+  
+  select(): Observable<T>;
+  // ========================
+  select<A = T>(
+    op: OperatorFunction<T, A>
+  ): Observable<A>;
+  select<A = T, B = A>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>
+  ): Observable<B>;
+  select<A = T, B = A, C = B>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>
+  ): Observable<C>;
+  select<A = T, B = A, C = B, D = C>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+  ): Observable<D>;
+  select<A = T, B = A, C = B, D = C, E = D>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+  ): Observable<E>;
+  // ================================
+  select<K1 extends keyof T>(k1: K1): Observable<T[K1]>;
+  select<K1 extends keyof T,
+    K2 extends keyof T[K1]>(k1: K1, k2: K2): Observable<T[K1][K2]>;
+  select<K1 extends keyof T,
+    K2 extends keyof T[K1],
+    K3 extends keyof T[K1][K2]>(k1: K1, k2: K2, k3: K3): Observable<T[K1][K2][K3]>;
+  select<K1 extends keyof T,
+    K2 extends keyof T[K1],
+    K3 extends keyof T[K1][K2],
+    K4 extends keyof T[K1][K2][K3]>(k1: K1, k2: K2, k3: K3, k4: K4): Observable<T[K1][K2][K3][K4]>;
+  select<K1 extends keyof T,
+    K2 extends keyof T[K1],
+    K3 extends keyof T[K1][K2],
+    K4 extends keyof T[K1][K2][K3],
+    K5 extends keyof T[K1][K2][K3][K4]>(k1: K1, k2: K2, k3: K3, k4: K4, k5: K5): Observable<T[K1][K2][K3][K4][K5]>;
+  select<K1 extends keyof T,
+    K2 extends keyof T[K1],
+    K3 extends keyof T[K1][K2],
+    K4 extends keyof T[K1][K2][K3],
+    K5 extends keyof T[K1][K2][K3][K4],
+    K6 extends keyof T[K1][K2][K3][K4][K5]>(k1: K1, k2: K2, k3: K3, k4: K4, k5: K5, k6: K6): Observable<T[K1][K2][K3][K4][K5][K6]>;
+  // ===========================
+  select(...opOrMapFn: any[]): Observable<any> {
+    if (!opOrMapFn || opOrMapFn.length === 0) {
+      return this.state$
+        .pipe(
+          stateful()
         );
+    } else if (!this.isStringArray(opOrMapFn)) {
+      const path = (opOrMapFn as any) as string[];
+      return this.state$.pipe(
+        pluck(...path),
+        stateful()
+      );
+    } else if (this.isOperateFnArray(opOrMapFn)) {
+      const oprs = opOrMapFn as OperatorFunction<T, any>[];
+      return this.state$.pipe(
+        pipeFromArray(oprs),
+        stateful()
+      );
     }
 
-    setState(s: Partial<T>): void {
-        this._stateSlices.next(s);
+    throw new Error('Wrong params passed' + JSON.stringify(opOrMapFn));
+  }
+  
+  holdEffect<S>(observableWithSideEffect: Observable<S>): void;
+  holdEffect<S>(obsOrObsWithSideEffect: Observable<S>, sideEffectFn?: (arg: S) => void): void {
+    if (sideEffectFn) {
+      this.effectSubject.next(obsOrObsWithSideEffect.pipe(tap(sideEffectFn)));
     }
+    this.effectSubject.next(obsOrObsWithSideEffect);
+  }
 
+  teardown(): void {
+    this.subscription.unsubscribe();
+  }
 
-    connectState<A extends keyof T>(strOrObs: A | Observable<Partial<T>>, obs?: Observable<T[A]>): void {
-        let _obs;
-        if (typeof strOrObs === 'string') {
-            const str: A = strOrObs;
-            const o = obs as Observable<T[A]>;
-            _obs = o.pipe(
-                map(s => ({[str]: s}))
-            );
-        } else {
-            const ob = strOrObs as Observable<Partial<T>>;
-            _obs = ob;
-        }
-        this._stateObservables.next(_obs as Observable<Partial<T>> | Observable<T[A]>);
-    }
+  private isOperateFnArray(op: any[]): op is OperatorFunction<T, any>[] {
+    return op.every((i: any) => typeof i !== 'string');
+  }
 
-    connectEffect(o: Observable<any>): void {
-        this._effectSubject.next(o);
-    }
+  private isStringArray(op: any[]): op is string[] {
+    return op.every((i: any) => typeof i !== 'string');
+  }
 
-    select(...opOrMapFn: OperatorFunction<T, any>[] | string[]): Observable<any> {
-     return this._state$.pipe(
-        pipeFromArray(opOrMapFn),
-        filter(v => v !== undefined),
-        distinctUntilChanged(),
-        shareReplay(1)
-       );
-    }
-
-    private isOperateFnArray(op: OperatorFunction<T, any>[] | string[]): op is OperatorFunction<T, any>[] {
-        return !(op.length === 1 && typeof op[0] === 'string');
-    }
-
-    teardown(): void {
-        this._subscription.unsubscribe();
-    }
-
-}```
+}
+```
 
 ## Service Implementation
 
@@ -1566,7 +1669,7 @@ export class DemoBasicsComponent3 extends LocalState<ComponentState> {
         this.setState(this.initComponentState);
         this.connectState(this.listExpandedChanges
             .pipe(map(b => ({listExpanded: b}))));
-        this.connectEffect(this.refreshListSideEffect$);
+        this.holdEffect(this.refreshListSideEffect$);
         this.connectState('list',
             this.store.select(selectRepositoryList).pipe(map(this.parseListItems))
         );
@@ -1682,7 +1785,7 @@ export class DemoBasicsComponent4 {
         this.vm.connectState('list',
             this.store.select(selectRepositoryList).pipe(map(this.parseListItems))
         );
-        this.vm.connectEffect(this.vm.refreshListSideEffect$
+        this.vm.holdEffect(this.vm.refreshListSideEffect$
             .pipe(tap(_ => this.store.dispatch(fetchRepositoryList())))
         );
     }
@@ -1722,8 +1825,6 @@ The combination with our logic bound to a certain life-time enabled us to create
 An example implementation of our learning can be found in the resources.
 
 Based on that we used in a minimal example and also made the first test with some design patterns like MVVM.
-
-
 
 ---
 

@@ -1,17 +1,18 @@
 <h3>Final Example</h3>
 <mat-expansion-panel
+        class="list"
         *ngIf="vm.baseModel$ | async as bm"
         (expandedChange)="vm.listExpandedChanges.next($event)"
         [expanded]="bm.listExpanded">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            User Name
-        </mat-panel-title>
+    <mat-expansion-panel-header style="position: relative">
+        <mat-progress-bar *ngIf="bm.isPending" [mode]="'query'"></mat-progress-bar>
+        <mat-panel-title>User Name</mat-panel-title>
         <mat-panel-description>
-                          <span *ngIf="!bm.listExpanded">{{bm.list.length}}
-                              Repositories Updated every: {{bm.refreshInterval}}
-                              ms</span>
-            <span *ngIf="bm.listExpanded">{{bm.list.length}}</span>
+          <span *ngIf="!bm.listExpanded">{{bm.list.length}}
+              Repositories Updated every: {{bm.refreshInterval}}
+              ms
+          </span>
+          <span *ngIf="bm.listExpanded">{{bm.list.length}}</span>
         </mat-panel-description>
     </mat-expansion-panel-header>
 

@@ -8,6 +8,7 @@ import {DemoBasicsView} from "./demo-basics.view.interface";
 const initState: DemoBasicsBaseModel = {
     refreshInterval: 1000,
     listExpanded: true,
+    isPending: true,
     list: []
 };
 

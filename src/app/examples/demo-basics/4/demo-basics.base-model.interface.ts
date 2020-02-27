@@ -4,4 +4,5 @@ export interface DemoBasicsBaseModel {
     refreshInterval: number;
     list: DemoBasicsItem[];
     listExpanded: boolean;
+    isPending: boolean;
 }

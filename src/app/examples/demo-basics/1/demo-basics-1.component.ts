@@ -1,9 +1,16 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {RepositoryListItem} from "@data-access/github";
-import {Subject} from "rxjs";
+import {Action, Store} from "@ngrx/store";
+import {
+    fetchRepositoryList,
+    repositoryListFetchError,
+    repositoryListFetchSuccess,
+    RepositoryListItem
+} from "@data-access/github";
+import {Observable, Subject} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
 import {LocalState} from "../rx-ephemeral-state";
+import {ofType} from "@ngrx/effects";
+import {map} from "rxjs/operators";
 
 interface ComponentState {
     refreshInterval: number;
@@ -27,7 +34,8 @@ const initComponentState = {
                 (expandedChange)="listExpandedChanges.next($event)"
                 [expanded]="m.listExpanded">
 
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header class="list">
+                <mat-progress-bar *ngIf="false" [mode]="'query'"></mat-progress-bar>
                 <mat-panel-title>
                     List
                 </mat-panel-title>
@@ -36,7 +44,7 @@ const initComponentState = {
                        Repositories Updated every: {{m.refreshInterval}}
                        ms
                    </span>
-                   <span *ngIf="m.listExpanded">{{m.list.length}}</span>
+                    <span *ngIf="m.listExpanded">{{m.list.length}}</span>
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -59,6 +67,21 @@ const initComponentState = {
 
         </mat-expansion-panel>
     `,
+    styles: [`
+        .list .mat-expansion-panel-header {
+            position: relative;
+        }
+
+        .list .mat-expansion-panel-header mat-progress-bar {
+            position: absolute;
+            top: 0px;
+            left: 0;
+        }
+
+        .list .mat-expansion-panel-content .mat-expansion-panel-body {
+            padding-top: 10px;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 // 1) implement LocalState Service => ComponentState
@@ -91,6 +114,13 @@ export class DemoBasicsComponent1 extends LocalState<ComponentState> {
     // Map RepositoryListItem to ListItem
     parseListItems(l: RepositoryListItem[]): DemoBasicsItem[] {
         return l.map(({id, name}) => ({id, name}))
+    }
+
+    toIsPending(o: Observable<Action>): Observable<boolean> {
+        return o.pipe(
+            ofType(repositoryListFetchError, repositoryListFetchSuccess, fetchRepositoryList),
+            map((a: Action) => a.type === fetchRepositoryList.type)
+        );
     }
 
 }

@@ -15,8 +15,6 @@ import {Actions, ofType} from "@ngrx/effects";
 @Component({
     selector: 'demo-basics-4',
     templateUrl: './demo-basics-4.view.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [DemoBasicsViewModelService],
     styles: [`
         .list .mat-expansion-panel-header {
             position: relative;
@@ -30,7 +28,9 @@ import {Actions, ofType} from "@ngrx/effects";
         .list .mat-expansion-panel-content .mat-expansion-panel-body {
             padding-top: 10px;
         }
-    `]
+    `],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [DemoBasicsViewModelService]
 })
 export class DemoBasicsComponent4 {
 
@@ -57,7 +57,7 @@ export class DemoBasicsComponent4 {
             ));
     }
 
-    // Map RepositoryListItem to ListItem
+
     parseListItems(l: RepositoryListItem[]): DemoBasicsItem[] {
         return l.map(({id, name}) => ({id, name}))
     }

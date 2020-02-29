@@ -98,7 +98,7 @@ export class DemoBasicsComponent1 extends LocalState<ComponentState> {
     _refreshInterval: number;
     @Input()
     set refreshInterval(refreshInterval: number) {
-        if (refreshInterval > 100) {
+        if (refreshInterval > 4000) {
             this._refreshInterval = refreshInterval;
         }
     }

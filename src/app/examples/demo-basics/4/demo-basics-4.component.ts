@@ -36,7 +36,7 @@ export class DemoBasicsComponent4 {
 
     @Input()
     set refreshInterval(refreshInterval: number) {
-        if (refreshInterval > 100) {
+        if (refreshInterval > 4000) {
             this.vm.setState({refreshInterval});
         }
     }

@@ -122,5 +122,23 @@ export class DemoBasicsComponent1 extends LocalState<ComponentState> {
             map((a: Action) => a.type === fetchRepositoryList.type)
         );
     }
+    /*
+        toIsPending(o: Observable<Action>): Observable<boolean> {
+            return o.pipe(
+                ofType(repositoryListFetchError, repositoryListFetchSuccess, fetchRepositoryList),
+                map((a: Action) => a.type === fetchRepositoryList.type)
+            );
+        }
 
+            refreshListSideEffect$ = merge(
+                this.refreshClicks,
+                this.select(
+                    map(s => s.refreshInterval),
+                    switchMap(ms => timer(0, ms))
+                )
+            )
+                .pipe(
+                    tap(_ => this.store.dispatch(fetchRepositoryList({})))
+                );
+                */
 }

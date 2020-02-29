@@ -98,12 +98,12 @@ export class DemoBasicsComponent3 extends LocalState<ComponentState> {
         this.setState(initComponentState);
         this.connectState(this.listExpandedChanges
             .pipe(map(b => ({listExpanded: b}))));
-        // Refactor to use the vm refreshListSideEffect$ property
-        this.connectEffect(this.refreshListSideEffect$);
         // Refactor to use the vm connectState method
         this.connectState('list',
             this.store.select(selectRepositoryList).pipe(map(this.parseListItems))
         );
+        // Refactor to use the vm refreshListSideEffect$ property
+        this.connectEffect(this.refreshListSideEffect$);
     }
 
     parseListItems(l: RepositoryListItem[]): DemoBasicsItem[] {

@@ -1,8 +1,3 @@
-# Research on Reactive-Ephemeral-State in component-oriented frameworks
-
-Angular, RxJS, StateManagement, LocalState, EphemeralState
-
---- 
 ### Studies are done with Angular as an example for a component-oriented framework and RxJS is used as an example for a reactive programming library
 
 --- 
@@ -103,7 +98,8 @@ Here the Important resources:
   {% youtube I8uaHMs8rw0 %}
 - **Repository For Examples** ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)): 
 {% github BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks no-readme %}
-- **Sourcecode First-draft**: [📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
+- **Sourcecode**: [📦 ngx-rx/rxjs-state](https://github.com/BioPhoton/ngx-rx/tree/master/libs/rxjs-state)  
+- **NPM Package**: [📦 ngx-rx-state](https://github.com/BioPhoton/ngx-rx/tree/master/libs/ngx-rx-state)  
 
 --- 
 
@@ -308,8 +304,6 @@ As we can see It makes a big difference where we place observables and where we 
 It also shows where we need hot observables and where we need to replay values.
 
 ## Subscription Handling
-
-{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/subscription-handling/subscription-handling-bad.component.ts %}
 
 Let's discuss where subscriptions should take place and for which reason they are made.
 
@@ -529,8 +523,6 @@ _(used RxJS parts: [share](https://rxjs.dev/api/operator/share))_
 
 ### Sharing Work
 
-{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/sharing-a-reference/sharing-a-reference-bad.display.component.ts %}
-
 With this knowledge let's take a look at some examples:
 
 In our view, we could do some processing for incoming data. 
@@ -712,9 +704,6 @@ Later on, in this article, we will remember this problem to provide a way to sha
 
 ## The Late Subscriber Problem
 
-{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/late-subscriber/late-subscriber.display.component.ts %}
-
-
 In this section, I faced the first time a problem that needed some more thinking. 
 
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
@@ -816,7 +805,6 @@ we rely on the consumer to initialize state composition.
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-sate-subscriber-replay-caveat-cold-composition__michael-hladky.png "Caveat Cold Composition")
 
 ### Cold Composition
-{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/cold-composition/some-bad.service.ts %}
 
 Let's quickly clarify hot/cold and uni-case/multi-cast.
 
@@ -1005,7 +993,6 @@ source replay the last emitted value by using `1` as `bufferSize`.
 In the service constructor, we called `connect` to make it hot subscribe to the source.
 
 ## Subscription-Less Interaction with Component StateManagement
-{% stackblitz research-reactive-ephemeral-state file=src/app/examples/problems/declarative-interaction/declarative-interaction-bad.component.ts %}
 
 So far we only had focused on independent peace and didn't pay much attention to their interaction.
 Let's analyze the way we interact with components and services so far.
@@ -1838,9 +1825,9 @@ Based on that we used in a minimal example and also made the first test with som
 - **Repository For Examples** ([💾 Final Example](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/tree/master/src/app/examples/demo-basics)):  
 
 [💾 research-on-reactive-ephemeral-state-in-component-oriented-frontend-frameworks](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/)
-- **Sourcecode First-draft**:  
 
-[📦 rxjs-state](https://github.com/BioPhoton/rxjs-state)  
+- **Sourcecode**: [📦 ngx-rx/rxjs-state](https://github.com/BioPhoton/ngx-rx/tree/master/libs/rxjs-state)  
+- **NPM Package**: [📦 ngx-rx-state](https://github.com/BioPhoton/ngx-rx/tree/master/libs/ngx-rx-state)  
 
 Used RxJS parts: 
 - [interval](https://rxjs.dev/api/function/interval)

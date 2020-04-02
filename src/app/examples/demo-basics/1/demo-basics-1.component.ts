@@ -4,24 +4,27 @@ import {
     fetchRepositoryList,
     repositoryListFetchError,
     repositoryListFetchSuccess,
-    RepositoryListItem
+    RepositoryListItem,
+    selectRepositoryList
 } from "@data-access/github";
-import {Observable, Subject} from "rxjs";
+import {interval, merge, Observable, Subject} from "rxjs";
 import {DemoBasicsItem} from "../demo-basics-item.interface";
 import {LocalState} from "../rx-ephemeral-state";
-import {ofType} from "@ngrx/effects";
-import {map} from "rxjs/operators";
+import {Actions, ofType} from "@ngrx/effects";
+import {map, switchMap, tap} from "rxjs/operators";
 
 interface ComponentState {
     refreshInterval: number;
     list: DemoBasicsItem[];
     listExpanded: boolean;
+    isLoading: boolean;
 }
 
 // The  initial state is normally derived form somewhere else automatically. But could also get specified statically here.
 const initComponentState = {
     refreshInterval: 10000,
     listExpanded: false,
+    isLoading: false,
     list: []
 };
 
@@ -30,12 +33,13 @@ const initComponentState = {
     template: `
         <h3>Demo Basic 1 - Setup and Retrieving State</h3>
         <!-- CC Dominic Elm and his template streams :) -->
-        <mat-expansion-panel
+        <mat-expansion-panel class="list"
+                *ngIf="m$ | async as m"
                 (expandedChange)="listExpandedChanges.next($event)"
                 [expanded]="m.listExpanded">
 
             <mat-expansion-panel-header class="list">
-                <mat-progress-bar *ngIf="false" [mode]="'query'"></mat-progress-bar>
+                <mat-progress-bar *ngIf="m.isLoading" [mode]="'query'"></mat-progress-bar>
                 <mat-panel-title>
                     List
                 </mat-panel-title>
@@ -84,31 +88,45 @@ const initComponentState = {
     `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-// 1) implement LocalState Service => ComponentState
 export class DemoBasicsComponent1 extends LocalState<ComponentState> {
 
     // UI interaction
     refreshClicks = new Subject<Event>();
     listExpandedChanges = new Subject<boolean>();
 
-    // UI state
-    // 1.1) derivation
-    m = initComponentState;
+    m$ = this.select();
 
-    _refreshInterval: number;
     @Input()
     set refreshInterval(refreshInterval: number) {
         if (refreshInterval > 4000) {
-            this._refreshInterval = refreshInterval;
+            this.setState({refreshInterval});
         }
     }
 
-    constructor(private store: Store<any>) {
+    isLoading$ = this.actions$.pipe(
+      ofType(fetchRepositoryList, repositoryListFetchSuccess, repositoryListFetchError),
+      map((a: Action) => a.type === fetchRepositoryList.type)
+    );
+
+    refreshSideEffect$ = merge(
+        this.select(map(s => s.refreshInterval))
+            .pipe(switchMap(ms => interval(ms))),
+        this.refreshClicks
+    )
+        .pipe(
+            tap(_ => this.store.dispatch(fetchRepositoryList({})))
+        );
+
+    constructor(private store: Store<any>,
+                private actions$: Actions) {
         super();
-        // 2.1) Optional - set initial state
-        // 2.2) Connect input bindings
-        // 2.3) Connect state from child components ( listExpandedChanges => listExpanded )
-        // 2.4) Connect Global state (selectRepositoryList -> parseListItems => list)
+
+        this.setState(initComponentState);
+        this.connectState(this.listExpandedChanges
+            .pipe(map((listExpanded: boolean) => ({listExpanded: listExpanded}))));
+        this.connectState('list', this.store.select(selectRepositoryList));
+        this.connectState('isLoading', this.isLoading$);
+        this.connectEffect(this.refreshSideEffect$);
     }
 
     // Map RepositoryListItem to ListItem
@@ -122,23 +140,5 @@ export class DemoBasicsComponent1 extends LocalState<ComponentState> {
             map((a: Action) => a.type === fetchRepositoryList.type)
         );
     }
-    /*
-        toIsPending(o: Observable<Action>): Observable<boolean> {
-            return o.pipe(
-                ofType(repositoryListFetchError, repositoryListFetchSuccess, fetchRepositoryList),
-                map((a: Action) => a.type === fetchRepositoryList.type)
-            );
-        }
 
-            refreshListSideEffect$ = merge(
-                this.refreshClicks,
-                this.select(
-                    map(s => s.refreshInterval),
-                    switchMap(ms => timer(0, ms))
-                )
-            )
-                .pipe(
-                    tap(_ => this.store.dispatch(fetchRepositoryList({})))
-                );
-                */
 }

@@ -181,7 +181,7 @@ This is our first rule of thumb to detect local state:
 
 ### Static vs Dynamic Lifetime of Data Structures
 
-In Angular global state is nearly always shared over global singleton services.
+In Angular, global state is nearly always shared over global singleton services.
 Their lifetime starts even before the root component. And ends after every child component.
 The state's lifetime is ~equal to the Apps lifetime or the browser windows lifetime.
 
@@ -218,7 +218,7 @@ And the logic is located in the more abstract layers of our architecture.
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-changes_processing-global-sources__michael-hladky.png "Processing of Global Sources")
 
 Code dedicated to the local state would nearly always focus on the process of the following sources: 
-- Data from `@InputBindings`
+- Data from `@Input` bindings
 - UI Events
 - Component level Side-Effects
 - Parsing global state to local
@@ -409,7 +409,7 @@ The derivation of data.
 ### Uni and multi-casting with RxJS
 
 As we have multiple sources we calculate the data for every subscription separately.
-This is given by the default behavior of RxJS. It is uni-cased by default.
+This is given by the default behavior of RxJS. It is uni-casted by default.
 
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state_uni-case-vs-multi-cast__michael-hladky.png "Uni-Cast VS Multi-Cast")
 
@@ -488,7 +488,7 @@ timeStampSubject.next(dataObject);
 _(used RxJS parts: [map](https://rxjs.dev/api/operator/map))_
 
 You remember the subscriber function we saw in the first example with the observable?
-Operators internally maintain a similar logic. We apply an operator the inner subscriber functions are chained.
+Operators internally maintain a similar logic. When we apply an operator, the inner subscriber functions are chained.
 This is the reason we see the log for the transformation 2 times. For every subscriber one time.
 
 There are also operators that help to add multi-casting in operator chains.
@@ -704,7 +704,7 @@ Later on, in this article, we will remember this problem to provide a way to sha
 
 ## The Late Subscriber Problem
 
-In this section, I faced the first time a problem that needed some more thinking. 
+In this section, I faced for the first time a problem that needed some more thinking. 
 
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/late-subscriber__michael-hladky.png "Late Subscriber")
 
@@ -826,7 +826,7 @@ The `interval` creation operator, for example, will only start it's internal tic
 Also, nearly every pipe-able operator will execute only if we have an active subscriber.
 
 An interesting example for a *cold* operator is `share`.
-Even if is multi-casts it's notifications to multiple subscribers,
+Even if it multi-casts its notifications to multiple subscribers,
 it will not emit any notification until at least one subscriber is present.
 
 So it's cold at the beginning but multi-cast after the first subscriber. :)
@@ -862,7 +862,7 @@ So far our sources got subscribed to when the view was ready and we rendered the
 As the input from the view is a hot producer of values and injected services too we have to decouple
 the service that handles component state from other sources. 
 
-**So what is the problem?!!11**
+**So what is the problem?!!**
 
 We have hot sources and we have to compose them. As we already learned in the section _sharing work and instances_ nearly every operator returns a cold source. 
 No matter if it was hot before or not.
@@ -1185,7 +1185,7 @@ of subscription handling, as well as value processing and emission in the servic
 
 ![](https://github.com/BioPhoton/research-reactive-ephemeral-state-in-component-oriented-frontend-frameworks/raw/master/images/reactive-local-state-declarative-interaction-connector-code__michael-hladky.png "Subscription-Less Component - Connect method")
 
-We now have not only way less and maintainable code but also a "subscription-less component". 
+We now have less code and it's maintainable. We also produced a "subscription-less component".
 
 This simple change will enable us to do create way more than just subscription-Less components.
 But this document is dedicated to the very fundamentals.
@@ -1578,7 +1578,7 @@ export class AnyComponent extends LocalState {
 ```
 
 This example shows a material design list that is collapsable.
-It refreshed data every n seconds of if we click the button.
+It refreshed data every n seconds or if we click the button.
 Also, it displays the fetched items.
 
 
